@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col } from "react-bootstrap"; // Assuming you're using react-bootstrap for styling
-import { getAllRooms } from "../api/roomService"; // Replace with the actual path to your API service
+// import { getAllRooms } from "../../api/roomService"; // Replace with the actual path to your API service
 import RoomFilter from "../common/RoomFilter"; // Import RoomFilter component
 import RoomPaginator from "../common/RoomPaginator"; // Import RoomPaginator component
 
