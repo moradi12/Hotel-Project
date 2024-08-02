@@ -22,10 +22,12 @@ const ExistingRooms = () => {
     setIsLoading(true);
     try {
       const result = await getAllRooms();
+      console.log("Fetched rooms:", result); // Debug: log the fetched data
       setRooms(result);
       setFilteredRooms(result); 
       setIsLoading(false);
     } catch (error) {
+      console.error("Error fetching rooms:", error); // Debug: log the error
       setErrorMessage(error.message);
       setIsLoading(false);
     }
@@ -43,23 +45,19 @@ const ExistingRooms = () => {
     setCurrentPage(1);
   }, [rooms, selectedRoomType]);
 
-
-  const handlePaginationClick = (pageNumber) => { setCurrentPage
-  setCurrentPage(pageNumber)
-  }
-
+  // Add the handlePaginationClick function here
+  const handlePaginationClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const calculateTotalPages = (filteredRooms, roomsPerPage) => {
     const totalRooms = filteredRooms.length > 0 ? filteredRooms.length : rooms.length;
     return Math.ceil(totalRooms / roomsPerPage);
-  }
+  };
 
-  const indexOfLastRoom = currentPage * roomsPerPage
-  const indexOfFirstRoom = indexOfLastRoom - roomsPerPage
-  const currentRooms = filteredRooms.slice(indexOfFirstRoom , indexOfLastRoom)
-
-
-
+  const indexOfLastRoom = currentPage * roomsPerPage;
+  const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
+  const currentRooms = filteredRooms.slice(indexOfFirstRoom, indexOfLastRoom);
 
   return (
     <div>
@@ -70,7 +68,7 @@ const ExistingRooms = () => {
           <div className="d-flex justify-content-center mb-3 mt-5">
             <h2>Existing Rooms</h2>
           </div>
-          <Col md={6} className='mb3 mb-md-0    '></Col>
+          <Col md={6} className='mb3 mb-md-0'></Col>
           <div className="row">
             <div className="col-md-6 mb-3 mb-md-0">
               <RoomFilter data={rooms} setFilteredData={setFilteredRooms} />

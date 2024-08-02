@@ -1,11 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import RoomTypeSelector from "../common/RoomTypeSelector";
 import { addRoom } from "../utils/ApiFunctions";
 
 const AddRoom = () => {
   const [newRoom, setNewRoom] = useState({
     photo: null,
-    RoomType: "",
+    roomType: "", // Ensure proper casing and naming
     roomPrice: "",
   });
 
@@ -35,10 +35,10 @@ const AddRoom = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const success = await addRoom(newRoom.photo, newRoom.getRoomType, newRoom.roomPrice);
+      const success = await addRoom(newRoom.photo, newRoom.roomType, newRoom.roomPrice);
       if (success !== undefined) {
         setSuccessMessage("A New Room added successfully");
-        setNewRoom({ photo: null, getRoomType: "", roomPrice: "" });
+        setNewRoom({ photo: null, roomType: "", roomPrice: "" });
         setImagePreview("");
         setErrorMessage("");
       } else {
@@ -59,21 +59,15 @@ const AddRoom = () => {
               <div className="alert alert-success" role="alert">
                 {successMessage}
               </div>
-            )} 
-
-
-              {errorMessage && (
-              <div className="alert alert-danger fade show" >
+            )}
+            {errorMessage && (
+              <div className="alert alert-danger fade show">
                 {errorMessage}
               </div>
-            )} 
-
-
-
-
+            )}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label htmlFor="RoomType" className="form-label">
+                <label htmlFor="roomType" className="form-label">
                   Room Type
                 </label>
                 <RoomTypeSelector
