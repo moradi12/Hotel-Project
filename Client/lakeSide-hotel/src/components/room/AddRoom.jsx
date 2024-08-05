@@ -1,17 +1,39 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import RoomTypeSelector from "../common/RoomTypeSelector";
-import { addRoom } from "../utils/ApiFunctions";
+import { addRoom, getAllRooms } from "../utils/ApiFunctions";
 
 const AddRoom = () => {
   const [newRoom, setNewRoom] = useState({
     photo: null,
-    roomType: "", // Ensure proper casing and naming
+    roomType: "", 
     roomPrice: "",
   });
-
   const [imagePreview, setImagePreview] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    // Check localStorage for rooms
+    const storedRooms = JSON.parse(localStorage.getItem("rooms"));
+    if (storedRooms) {
+      setRooms(storedRooms);
+    } else {
+      fetchRooms();
+    }
+  }, []);
+
+  const fetchRooms = async () => {
+    try {
+      const fetchedRooms = await getAllRooms();
+      setRooms(fetchedRooms);
+      // Save rooms to localStorage
+      localStorage.setItem("rooms", JSON.stringify(fetchedRooms));
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+    }
+  };
 
   const handleRoomInputChange = (e) => {
     const name = e.target.name;
@@ -41,30 +63,28 @@ const AddRoom = () => {
         setNewRoom({ photo: null, roomType: "", roomPrice: "" });
         setImagePreview("");
         setErrorMessage("");
+        fetchRooms();
       } else {
-        setErrorMessage("Error adding a new room");
+        setErrorMessage("Error adding room");
+        setSuccessMessage("");
       }
     } catch (error) {
-      setErrorMessage(error.message);
+      console.error("Error adding room:", error);
+      setErrorMessage("Error adding room");
+      setSuccessMessage("");
     }
   };
 
   return (
     <>
-      <section className="container mt-5 mb-5">
-        <div className="row justify-content-center">
-          <div className="col-md-8 col-lg-6">
-            <h2 className="mt-5 mb-2">Add A New Room</h2>
-            {successMessage && (
-              <div className="alert alert-success" role="alert">
-                {successMessage}
-              </div>
-            )}
-            {errorMessage && (
-              <div className="alert alert-danger fade show">
-                {errorMessage}
-              </div>
-            )}
+      <section className="p-4 p-md-5 text-center text-lg-start shadow-1-strong rounded" style={{ backgroundColor: "hsl(0, 0%, 94%)" }}>
+        <div className="container my-5">
+          <div className="row gx-lg-5 align-items-center mb-5">
+            <div className="col-lg-6 mb-5 mb-lg-0" style={{ zIndex: 10 }}>
+              <h1 className="my-5 display-5 fw-bold ls-tight">
+                Add Room <br />
+              </h1>
+            </div>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="roomType" className="form-label">
@@ -86,7 +106,6 @@ const AddRoom = () => {
                   type="number"
                   value={newRoom.roomPrice}
                   onChange={handleRoomInputChange}
-                  required
                 />
               </div>
               <div className="mb-3">

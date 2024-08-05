@@ -34,6 +34,7 @@ public class RoomServiceImpl implements IRoomService {
 
         return roomRepo.save(room);
     }
+
     Room room = new Room();
 
     @Override
@@ -42,6 +43,7 @@ public class RoomServiceImpl implements IRoomService {
 
 
     }
+
 
     @Override
     public List<Room> getAllRooms() {
@@ -56,9 +58,39 @@ public class RoomServiceImpl implements IRoomService {
         }
         Blob photoBlob = theRoom.get().getPhoto();
         if (photoBlob == null) {
-            return photoBlob.getBytes(1,(int) photoBlob.length());
+            return photoBlob.getBytes(1, (int) photoBlob.length());
         }
         return null;
     }
 
+    @Override
+    public Room editRoom(Long roomId, MultipartFile photo, String roomType, BigDecimal roomPrice) throws IOException, SQLException {
+        Optional<Room> optionalRoom = roomRepo.findById(roomId);
+        if (optionalRoom.isEmpty()) {
+            throw new ResourceNotFoundException("Sorry, Room not found!");
+        }
+
+        Room room = optionalRoom.get();
+        room.setRoomType(roomType);
+        room.setRoomPrice(roomPrice);
+
+        if (photo != null && !photo.isEmpty()) {
+            byte[] photoBytes = photo.getBytes();
+            Blob photoBlob = new SerialBlob(photoBytes);
+            room.setPhoto(photoBlob);
+        }
+
+        return roomRepo.save(room);
+    }
+
+    @Override
+    public void deleteRoom(Long roomId) {
+        Optional<Room> optionalRoom = roomRepo.findById(roomId);
+        if (optionalRoom.isEmpty()) {
+            throw new ResourceNotFoundException("Sorry, Room not found!");
+        }
+
+        roomRepo.deleteById(roomId);
+    }
 }
+

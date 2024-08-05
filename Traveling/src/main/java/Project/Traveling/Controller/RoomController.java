@@ -43,6 +43,20 @@ public class RoomController {
         return roomService.getAllRoomTypes();
     }
 
+
+    @PutMapping("/edit/{roomId}")
+    public ResponseEntity<RoomResponse> editRoom(
+            @PathVariable Long roomId,
+            @RequestParam(value = "photo", required = false) MultipartFile photo,
+            @RequestParam("roomType") String roomType,
+            @RequestParam("roomPrice") BigDecimal roomPrice) throws SQLException, IOException {
+        Room updatedRoom = roomService.editRoom(roomId, photo, roomType, roomPrice);
+        RoomResponse response = new RoomResponse(updatedRoom.getId(), updatedRoom.getRoomType(), updatedRoom.getRoomPrice());
+        return ResponseEntity.ok(response);
+    }
+
+
+
     @GetMapping("/all")
     public ResponseEntity<List<RoomResponse>> getAllRooms() throws SQLException {
         List<Room> rooms = roomService.getAllRooms();

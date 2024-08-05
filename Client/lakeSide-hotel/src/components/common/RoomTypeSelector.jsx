@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { getRoomTypes } from "../utils/ApiFunctions";
 
 const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
@@ -17,23 +17,30 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
     setNewRoomType(e.target.value);
   };
 
-  const handleAddNewRoomType = () => {
-    if (newRoomType.trim() !== "") {
-      // Add new room type to the list and update the state
-      setRoomTypes([...roomTypes, newRoomType]);
-      handleRoomInputChange({ target: { name: "roomType", value: newRoomType } });
-      setNewRoomType(""); // Reset input field
-      setShowNewRoomTypeInput(false); // Hide input field
-    }
-  };
+  // const handleAddNewRoomType = () => {
+  //   if (newRoomType.trim() !== "") {
+  //     setRoomTypes([...roomTypes, newRoomType]);
+  //     handleRoomInputChange({ target: { name: "roomType", value: newRoomType } });
+  //     setNewRoomType(""); //
+  //     setShowNewRoomTypeInput(false); 
+  //   }
+  // };
 
+  const handleAddNewRoomType = () => {
+
+    if (newRoomType!== "") {
+         setRoomTypes([...roomTypes, newRoomType]);
+     setNewRoomType(""); 
+     setShowNewRoomTypeInput(false)
+    }
+  }
   const handleRoomTypeChange = (e) => {
     const { value } = e.target;
     if (value === "Add New") {
       setShowNewRoomTypeInput(true);
     } else {
       handleRoomInputChange(e);
-      setShowNewRoomTypeInput(false); // Hide input field if not adding new
+      setShowNewRoomTypeInput(false); 
     }
   };
 
