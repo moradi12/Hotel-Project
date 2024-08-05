@@ -27,13 +27,13 @@ public class RoomResponse {
 
     public RoomResponse(Long id, String roomType,
                         BigDecimal roomPrice,
-                        boolean isBooked,
-                        byte[] photoBytes) { // Removed bookings parameter for clarity
+                        boolean isBooked){//,
+                        //byte[] photoBytes) { // Removed bookings parameter for clarity
         this.id = id;
         this.roomType = roomType;
         this.roomPrice = roomPrice;
         this.isBooked = isBooked;
-        this.photo = photoBytes != null ? Base64.getEncoder().encodeToString(photoBytes) : null;
+        //this.photo = photoBytes != null ? Base64.getEncoder().encodeToString(photoBytes) : null;
 //        this.bookings = bookings; // Uncomment if needed and modify constructor accordingly
     }
 

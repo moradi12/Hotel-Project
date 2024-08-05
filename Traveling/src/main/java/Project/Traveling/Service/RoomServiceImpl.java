@@ -27,8 +27,8 @@ public class RoomServiceImpl implements IRoomService {
         room.setRoomPrice(roomPrice);
         if (!file.isEmpty()) {
             byte[] photoBytes = file.getBytes();
-            Blob photoBlob = new SerialBlob(photoBytes);
-            room.setPhoto(photoBlob);
+//            Blob photoBlob = new SerialBlob(photoBytes);
+//            room.setPhoto(photoBlob);
         }
 
 
@@ -56,10 +56,10 @@ public class RoomServiceImpl implements IRoomService {
         if (theRoom.isEmpty()) {
             throw new ResourceNotFoundException("Sorry, Room not found!");
         }
-        Blob photoBlob = theRoom.get().getPhoto();
-        if (photoBlob == null) {
-            return photoBlob.getBytes(1, (int) photoBlob.length());
-        }
+//        Blob photoBlob = theRoom.get().getPhoto();
+//        if (photoBlob == null) {
+//            return photoBlob.getBytes(1, (int) photoBlob.length());
+//        }
         return null;
     }
 
@@ -74,23 +74,50 @@ public class RoomServiceImpl implements IRoomService {
         room.setRoomType(roomType);
         room.setRoomPrice(roomPrice);
 
-        if (photo != null && !photo.isEmpty()) {
-            byte[] photoBytes = photo.getBytes();
-            Blob photoBlob = new SerialBlob(photoBytes);
-            room.setPhoto(photoBlob);
-        }
+//        if (photo != null && !photo.isEmpty()) {
+//            byte[] photoBytes = photo.getBytes();
+//            Blob photoBlob = new SerialBlob(photoBytes);
+//            room.setPhoto(photoBlob);
+//        }
 
         return roomRepo.save(room);
     }
 
     @Override
-    public void deleteRoom(Long roomId) {
-        Optional<Room> optionalRoom = roomRepo.findById(roomId);
-        if (optionalRoom.isEmpty()) {
-            throw new ResourceNotFoundException("Sorry, Room not found!");
+    public List<Room> deleteRoom(Long roomId) {
+        Room room = roomRepo.findById(roomId)
+                .orElseThrow(() -> new ResourceNotFoundException("Sorry, Room not found!"));
+
+        // Remove all associated bookings before deleting the room
+        if (!room.getBookings().isEmpty()) {
+            room.getBookings().clear();
         }
 
-        roomRepo.deleteById(roomId);
+        roomRepo.delete(room);
+        return roomRepo.findAll();
     }
 }
+
+//    public void forceDeleteCustomer(int customerId) throws CustomerExceptionException {
+//        Customer customer = customerRepository.findById(customerId)
+//                .orElseThrow(() -> new CustomerNotFoundException(ErrMsg.CUSTOMER_NOT_FOUND.getMsg()));
+//        List<Coupon> customerCoupons = customer.getCoupons();
+//        for (Coupon coupon : customerCoupons) {
+//            couponRepository.delete(coupon);
+//        }
+//        customerRepository.delete(customer);
+//
+//        System.out.println("Customer and associated coupons forcefully deleted with ID: " + customerId);
+//    }
+//
+//
+//    public List<Customer> getAllCustomers() {
+//        return customerRepository.findAll();
+//    }
+//
+//
+//    public Optional<Customer> getOneCustomer(int customerId) {
+//        return customerRepository.findById(customerId);
+//    }
+//}
 

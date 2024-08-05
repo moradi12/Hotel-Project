@@ -45,10 +45,13 @@ export async function deleteRoom(roomId) {
     return result.data;
   } catch (error) {
     console.error("Error deleting room:", error);
-    throw new Error("Error deleting room");
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data);
+    } else {
+      throw new Error("Error deleting room");
+    }
   }
 }
-
 export async function editRoom(roomId, photo, roomType, roomPrice) {
   const formData = new FormData();
   formData.append("photo", photo);

@@ -19,6 +19,6 @@ public interface IRoomService  {
 
     Room editRoom(Long roomId, MultipartFile photo, String roomType, BigDecimal roomPrice) throws IOException, SQLException;
 
-    void deleteRoom(Long roomId);
+    List<Room> deleteRoom(Long roomId);
 }
 

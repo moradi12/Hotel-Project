@@ -28,6 +28,7 @@ const ExistingRooms = () => {
     setIsLoading(true);
     try {
       const result = await getAllRooms();
+          console.log("Fetched rooms:", result); 
       setRooms(result);
       setFilteredRooms(result);
       localStorage.setItem("rooms", JSON.stringify(result));

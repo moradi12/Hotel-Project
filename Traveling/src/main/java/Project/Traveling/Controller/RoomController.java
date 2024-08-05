@@ -1,6 +1,7 @@
 package Project.Traveling.Controller;
 
 import Project.Traveling.Exceptions.PhotoRetrievalException;
+import Project.Traveling.Exceptions.ResourceNotFoundException;
 import Project.Traveling.Model.BookedRoom;
 import Project.Traveling.Model.Room;
 import Project.Traveling.Response.BookingResponse;
@@ -9,6 +10,7 @@ import Project.Traveling.Service.BookingService;
 import Project.Traveling.Service.IRoomService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,22 +57,36 @@ public class RoomController {
         return ResponseEntity.ok(response);
     }
 
-
+    @DeleteMapping("/delete/{roomId}")
+    public ResponseEntity<String> deleteRoom(@PathVariable Long roomId) {
+        try {
+            roomService.deleteRoom(roomId);
+            return ResponseEntity.ok("Room deleted successfully.");
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while deleting the room.");
+        }
+    }
 
     @GetMapping("/all")
-    public ResponseEntity<List<RoomResponse>> getAllRooms() throws SQLException {
+    public ResponseEntity<List<Room>> getAllRooms() throws SQLException {
         List<Room> rooms = roomService.getAllRooms();
-        List<RoomResponse> responses = new ArrayList<>();
-        for (Room room : rooms) {
-            byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
-            if (photoBytes != null && photoBytes.length > 0) {
-                String base64Photo = new Base64().encodeBase64String(photoBytes);
-                RoomResponse roomResponse = getRoomResponse(room);
-                roomResponse.setPhoto(base64Photo);
-                responses.add(roomResponse);
-            }
-        }
-        return ResponseEntity.ok(responses);
+        System.out.println("Fetched rooms from DB: " + rooms);
+
+//        List<RoomResponse> responses = new ArrayList<>();
+//        for (Room room : rooms) {
+//            byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
+//            if (photoBytes != null && photoBytes.length > 0) {
+//                String base64Photo = new Base64().encodeBase64String(photoBytes);
+//                RoomResponse roomResponse = getRoomResponse(room);
+//                roomResponse.setPhoto(base64Photo);
+//                responses.add(roomResponse);
+//            }
+//        }
+//
+//        System.out.println("Responses to be sent: " + responses);
+        return ResponseEntity.ok(rooms);
     }
 
     private RoomResponse getRoomResponse(Room room) throws PhotoRetrievalException {
@@ -84,15 +100,15 @@ public class RoomController {
 //                ))
 //                .toList();
         byte[] photoBytes = null;
-        Blob photoBlob = room.getPhoto();
-        if (photoBlob != null) {
-            try {
-                photoBytes = photoBlob.getBytes(1, (int) photoBlob.length());
-            } catch (SQLException e) {
-                throw new PhotoRetrievalException("Error retrieving photo", e);
-            }
-        }
-        return new RoomResponse(room.getId(), room.getRoomType(), room.getRoomPrice(), room.isBooked(), photoBytes);
+//        Blob photoBlob = room.getPhoto();
+//        if (photoBlob != null) {
+//            try {
+//                photoBytes = photoBlob.getBytes(1, (int) photoBlob.length());
+//            } catch (SQLException e) {
+//                throw new PhotoRetrievalException("Error retrieving photo", e);
+//            }
+//        }
+        return new RoomResponse(room.getId(), room.getRoomType(), room.getRoomPrice(), room.isBooked());//, photoBytes);
     }
 
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
