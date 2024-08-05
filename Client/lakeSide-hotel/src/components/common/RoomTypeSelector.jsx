@@ -17,30 +17,22 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
     setNewRoomType(e.target.value);
   };
 
-  // const handleAddNewRoomType = () => {
-  //   if (newRoomType.trim() !== "") {
-  //     setRoomTypes([...roomTypes, newRoomType]);
-  //     handleRoomInputChange({ target: { name: "roomType", value: newRoomType } });
-  //     setNewRoomType(""); //
-  //     setShowNewRoomTypeInput(false); 
-  //   }
-  // };
-
   const handleAddNewRoomType = () => {
-
-    if (newRoomType!== "") {
-         setRoomTypes([...roomTypes, newRoomType]);
-     setNewRoomType(""); 
-     setShowNewRoomTypeInput(false)
+    if (newRoomType.trim() !== "") {
+      setRoomTypes([...roomTypes, newRoomType]);
+      handleRoomInputChange({ target: { name: "roomType", value: newRoomType } });
+      setNewRoomType("");
+      setShowNewRoomTypeInput(false);
     }
-  }
+  };
+
   const handleRoomTypeChange = (e) => {
     const { value } = e.target;
     if (value === "Add New") {
       setShowNewRoomTypeInput(true);
     } else {
       handleRoomInputChange(e);
-      setShowNewRoomTypeInput(false); 
+      setShowNewRoomTypeInput(false);
     }
   };
 

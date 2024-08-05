@@ -12,22 +12,16 @@ export async function addRoom(photo, roomType, roomPrice) {
 
   try {
     const response = await api.post("/rooms/add/new-room", formData);
-    if (response.status === 201) {
-      return true;
-    } else {
-      console.error("Error adding room:", response.status);
-      return false;
-    }
+    return response.status === 200;
   } catch (error) {
     console.error("Error adding room:", error);
     throw new Error("Error adding room");
   }
 }
 
-
 export async function getRoomTypes() {
   try {
-    const response = await api.get("/rooms/room-types");
+    const response = await api.get("/rooms/room/types");
     return response.data;
   } catch (error) {
     console.error("Error fetching room types:", error);
@@ -37,7 +31,7 @@ export async function getRoomTypes() {
 
 export async function getAllRooms() {
   try {
-    const result = await api.get("/rooms/all-rooms");
+    const result = await api.get("/rooms/all");
     return result.data;
   } catch (error) {
     console.error("Error fetching rooms:", error);
@@ -47,24 +41,25 @@ export async function getAllRooms() {
 
 export async function deleteRoom(roomId) {
   try {
-    const result = await api.delete(`/rooms/delete/room/${roomId}`);
+    const result = await api.delete(`/rooms/delete/${roomId}`);
     return result.data;
   } catch (error) {
-    console.error("Error fetching rooms:", error);
-    throw new Error("Error fetching rooms");
+    console.error("Error deleting room:", error);
+    throw new Error("Error deleting room");
   }
 }
 
-//  import axios from 'axios';
+export async function editRoom(roomId, photo, roomType, roomPrice) {
+  const formData = new FormData();
+  formData.append("photo", photo);
+  formData.append("roomType", roomType);
+  formData.append("roomPrice", roomPrice);
 
-// פונקציה לקריאה לכל החדרים
-// export const getAllRooms = async () => {
-//   try {
-//     const response = await axios.get('/api/rooms/all'); 
-//         return response.data;
-//   } catch (error) {
-//     console.error('Error fetching rooms:', error);
-//     throw error;
-//   }
-// };
-
+  try {
+    const response = await api.put(`/rooms/edit/${roomId}`, formData);
+    return response.data;
+  } catch (error) {
+    console.error("Error editing room:", error);
+    throw new Error("Error editing room");
+  }
+}

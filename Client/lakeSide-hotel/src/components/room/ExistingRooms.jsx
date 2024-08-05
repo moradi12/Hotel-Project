@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Col } from "react-bootstrap";
 import RoomFilter from "../common/RoomFilter";
@@ -16,7 +15,6 @@ const ExistingRooms = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    // Check localStorage for rooms
     const storedRooms = JSON.parse(localStorage.getItem("rooms"));
     if (storedRooms && storedRooms.length > 0) {
       setRooms(storedRooms);
@@ -32,7 +30,6 @@ const ExistingRooms = () => {
       const result = await getAllRooms();
       setRooms(result);
       setFilteredRooms(result);
-      // Save rooms to localStorage
       localStorage.setItem("rooms", JSON.stringify(result));
     } catch (error) {
       console.error("Error fetching rooms:", error);
@@ -63,7 +60,6 @@ const ExistingRooms = () => {
       const result = await deleteRoom(roomId);
       if (result === "") {
         setSuccessMessage(`Room No ${roomId} was deleted`);
-        // Update the local state and localStorage
         const updatedRooms = rooms.filter((room) => room.id !== roomId);
         setRooms(updatedRooms);
         setFilteredRooms(updatedRooms);

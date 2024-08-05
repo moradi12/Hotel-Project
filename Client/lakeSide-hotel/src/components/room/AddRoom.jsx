@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import RoomTypeSelector from "../common/RoomTypeSelector";
 import { addRoom, getAllRooms } from "../utils/ApiFunctions";
@@ -15,7 +14,6 @@ const AddRoom = () => {
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    // Check localStorage for rooms
     const storedRooms = JSON.parse(localStorage.getItem("rooms"));
     if (storedRooms) {
       setRooms(storedRooms);
@@ -28,7 +26,6 @@ const AddRoom = () => {
     try {
       const fetchedRooms = await getAllRooms();
       setRooms(fetchedRooms);
-      // Save rooms to localStorage
       localStorage.setItem("rooms", JSON.stringify(fetchedRooms));
     } catch (error) {
       console.error("Error fetching rooms:", error);
@@ -58,7 +55,7 @@ const AddRoom = () => {
     e.preventDefault();
     try {
       const success = await addRoom(newRoom.photo, newRoom.roomType, newRoom.roomPrice);
-      if (success !== undefined) {
+      if (success) {
         setSuccessMessage("A New Room added successfully");
         setNewRoom({ photo: null, roomType: "", roomPrice: "" });
         setImagePreview("");

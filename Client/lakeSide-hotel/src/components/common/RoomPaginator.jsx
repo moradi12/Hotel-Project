@@ -1,8 +1,6 @@
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React from "react";
 
-const RoomPaginator = ( currentPage, totalPages, onPageChange ) => {
-
+const RoomPaginator = ({ currentPage, totalPages, onPageChange }) => {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
@@ -13,7 +11,7 @@ const RoomPaginator = ( currentPage, totalPages, onPageChange ) => {
             key={pageNumber}
             className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
           >
-            <button className="page-link"onClick={() => onPageChange(pageNumber)} >
+            <button className="page-link" onClick={() => onPageChange(pageNumber)}>
               {pageNumber}
             </button>
           </li>
