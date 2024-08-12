@@ -1,8 +1,12 @@
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 import React, { useEffect, useState } from "react";
 import { Col } from "react-bootstrap";
+import { FaEdit, FaEye, FaTrashAlt } from 'react-icons/fa'; // Added missing imports
+import { Link } from "react-router-dom";
 import RoomFilter from "../common/RoomFilter";
 import RoomPaginator from "../common/RoomPaginator";
-import { deleteRoom, getAllRooms } from "../utils/ApiFunctions";
+import { deleteRoom, editRoom, getAllRooms } from "../utils/ApiFunctions";
 
 const ExistingRooms = () => {
   const [rooms, setRooms] = useState([]);
@@ -13,6 +17,8 @@ const ExistingRooms = () => {
   const [selectedRoomType, setSelectedRoomType] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const notyf = new Notyf();
 
   useEffect(() => {
     const storedRooms = JSON.parse(localStorage.getItem("rooms"));
@@ -28,7 +34,7 @@ const ExistingRooms = () => {
     setIsLoading(true);
     try {
       const result = await getAllRooms();
-          console.log("Fetched rooms:", result); 
+      console.log("Fetched rooms:", result);
       setRooms(result);
       setFilteredRooms(result);
       localStorage.setItem("rooms", JSON.stringify(result));
@@ -59,17 +65,44 @@ const ExistingRooms = () => {
   const handleDelete = async (roomId) => {
     try {
       const result = await deleteRoom(roomId);
-      if (result === "") {
-        setSuccessMessage(`Room No ${roomId} was deleted`);
-        const updatedRooms = rooms.filter((room) => room.id !== roomId);
-        setRooms(updatedRooms);
-        setFilteredRooms(updatedRooms);
-        localStorage.setItem("rooms", JSON.stringify(updatedRooms));
+
+      if (result === 'Room deleted successfully') {
+        notyf.success(result);
+        setSuccessMessage(result);
+
+        const updateRooms = (roomList) => roomList.filter((room) => room.id !== roomId);
+        setRooms(updateRooms);
+        setFilteredRooms(updateRooms);
+
       } else {
-        setErrorMessage(`Error deleting room: ${result.message}`);
+        console.error('Error deleting room:', result);
+        notyf.error(`Error deleting room: ${result}`);
+        setErrorMessage(result);
       }
+
     } catch (error) {
-      setErrorMessage(error.message);
+      const errorMessage = error.message || 'An unexpected error occurred';
+      console.error('Error deleting room:', errorMessage);
+      notyf.error(`Error deleting room: ${errorMessage}`);
+      setErrorMessage(errorMessage);
+    }
+
+    // Clear success and error messages after 3 seconds
+    setTimeout(() => {
+      setSuccessMessage('');
+      setErrorMessage('');
+    }, 3000);
+  };
+
+  const handleEdit = async (roomId, roomType, roomPrice, photo) => {
+    try {
+      const updatedRoom = await editRoom(roomId, roomType, roomPrice, photo); // Use the API function
+      notyf.success('Room successfully edited');
+      setRooms(rooms.map(room => room.id === roomId ? updatedRoom : room));
+      setFilteredRooms(filteredRooms.map(room => room.id === roomId ? updatedRoom : room));
+    } catch (error) {
+      console.error('Error editing room:', error);
+      notyf.error(`Error editing room: ${error.message || 'An unexpected error occurred'}`);
     }
   };
 
@@ -113,9 +146,23 @@ const ExistingRooms = () => {
                   <td>{room.id}</td>
                   <td>{room.roomType}</td>
                   <td>{room.roomPrice}</td>
-                  <td>
-                    <button>View / Edit</button>
-                    <button onClick={() => handleDelete(room.id)}>Delete</button>
+                  <td className="gap-2">
+                    <Link to={`/edit-room/${room.id}`}>
+                      <span className="btn btn-info btn-sm">
+                        <FaEye />
+                      </span>
+                    </Link>
+                    <Link to={`/edit-room/${room.id}`}>
+                      <span className="btn btn-warning btn-sm">
+                        <FaEdit />
+                      </span>
+                    </Link>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(room.id)}
+                    >
+                      <FaTrashAlt />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -123,7 +170,7 @@ const ExistingRooms = () => {
           </table>
           <RoomPaginator
             currentPage={currentPage}
-            totalPages={calculateTotalPages(filteredRooms, roomsPerPage)}
+            totalPages={calculateTotalPages(filteredRooms.length, roomsPerPage)}
             onPageChange={handlePaginationClick}
           />
         </section>

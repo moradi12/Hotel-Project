@@ -70,6 +70,11 @@ const AddRoom = () => {
       setErrorMessage("Error adding room");
       setSuccessMessage("");
     }
+
+    setTimeout(()=>
+      {setSuccessMessage("")
+        setErrorMessage("")
+      },3000)
   };
 
   return (
@@ -82,6 +87,29 @@ const AddRoom = () => {
                 Add Room <br />
               </h1>
             </div>
+            {successMessage && (
+              <div className="alert alert-success fade show">{successMessage}     </div>
+            )}
+
+
+            {errorMessage && (
+              <div className="alert alert-denger fade show">{errorMessage}     </div>
+            )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="roomType" className="form-label">

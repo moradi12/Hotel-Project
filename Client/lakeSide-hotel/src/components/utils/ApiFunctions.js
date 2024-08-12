@@ -63,6 +63,10 @@ export async function editRoom(roomId, photo, roomType, roomPrice) {
     return response.data;
   } catch (error) {
     console.error("Error editing room:", error);
-    throw new Error("Error editing room");
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || "Error editing room");
+    } else {
+      throw new Error("An unexpected error occurred while editing the room");
+    }
   }
 }
