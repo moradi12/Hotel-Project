@@ -15,16 +15,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/rooms")
+@CrossOrigin(origins = "http://localhost:5173")
 public class RoomController {
 
     private final IRoomService roomService;
@@ -46,6 +50,30 @@ public class RoomController {
     }
 
 
+    @PutMapping("/update/{roomId}")
+    public ResponseEntity<?> updateRoom(@PathVariable Long roomId,
+                                        @RequestParam(required = false) String roomType,
+                                        @RequestParam(required = false) BigDecimal roomPrice,
+                                        @RequestParam(required = false) MultipartFile photo) {
+
+        byte[] photoBytes = null;
+        try {
+            if (photo != null && !photo.isEmpty()) {
+                photoBytes = photo.getBytes();
+            } else {
+                photoBytes = roomService.getRoomPhotoByRoomId(roomId);
+            }
+        } catch (IOException | SQLException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error processing the photo or retrieving existing photo: " + e.getMessage());
+        }
+
+        Room theRoom = roomService.updateRoom(roomId, roomType, roomPrice, photoBytes);
+
+        RoomResponse roomResponse = getRoomResponse(theRoom);
+
+        return ResponseEntity.ok(roomResponse);
+    }
 
 
     @PutMapping("/edit/{roomId}")
@@ -116,4 +144,20 @@ public class RoomController {
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingService.getAllBookingsByRoomId(roomId);
     }
+
+
+
+
+    @GetMapping("/room/{roomId}")
+    public ResponseEntity<Optional<RoomResponse>> getRoomById(@PathVariable Long roomId) {
+        Optional<Room> theRoom = roomService.getRoomById(roomId);
+        return theRoom.map(room -> {
+            RoomResponse roomResponse = getRoomResponse(room);
+            return ResponseEntity.ok(Optional.of(roomResponse));
+        }).orElseThrow(() -> new ResourceNotFoundException("Room not found"));
+    }
+
+
+
+
 }

@@ -1,3 +1,5 @@
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
 import React, { useEffect, useState } from "react";
 import RoomTypeSelector from "../common/RoomTypeSelector";
 import { addRoom, getAllRooms } from "../utils/ApiFunctions";
@@ -9,9 +11,9 @@ const AddRoom = () => {
     roomPrice: "",
   });
   const [imagePreview, setImagePreview] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [rooms, setRooms] = useState([]);
+
+  const notyf = new Notyf();
 
   useEffect(() => {
     const storedRooms = JSON.parse(localStorage.getItem("rooms"));
@@ -56,25 +58,17 @@ const AddRoom = () => {
     try {
       const success = await addRoom(newRoom.photo, newRoom.roomType, newRoom.roomPrice);
       if (success) {
-        setSuccessMessage("A New Room added successfully");
+        notyf.success("A New Room added successfully");
         setNewRoom({ photo: null, roomType: "", roomPrice: "" });
         setImagePreview("");
-        setErrorMessage("");
         fetchRooms();
       } else {
-        setErrorMessage("Error adding room");
-        setSuccessMessage("");
+        notyf.error("Error adding room");
       }
     } catch (error) {
       console.error("Error adding room:", error);
-      setErrorMessage("Error adding room");
-      setSuccessMessage("");
+      notyf.error("Error adding room");
     }
-
-    setTimeout(()=>
-      {setSuccessMessage("")
-        setErrorMessage("")
-      },3000)
   };
 
   return (
@@ -87,28 +81,6 @@ const AddRoom = () => {
                 Add Room <br />
               </h1>
             </div>
-            {successMessage && (
-              <div className="alert alert-success fade show">{successMessage}     </div>
-            )}
-
-
-            {errorMessage && (
-              <div className="alert alert-denger fade show">{errorMessage}     </div>
-            )}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
@@ -154,15 +126,9 @@ const AddRoom = () => {
                 )}
               </div>
               <div className="d-grid d-md-flex mt-2">
-                <button className="btn btn-outline-primary ml-5" type="submit">Save Room</button>
+                <button className="btn btn-outline-primary ml-2" type="submit">Save Room</button>
               </div>
             </form>
-            {successMessage && (
-              <div className="alert alert-success mt-3">{successMessage}</div>
-            )}
-            {errorMessage && (
-              <div className="alert alert-danger mt-3">{errorMessage}</div>
-            )}
           </div>
         </div>
       </section>

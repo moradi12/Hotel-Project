@@ -52,21 +52,50 @@ export async function deleteRoom(roomId) {
     }
   }
 }
-export async function editRoom(roomId, photo, roomType, roomPrice) {
+
+export async function updateRoom(roomId, roomData) {
   const formData = new FormData();
-  formData.append("photo", photo);
-  formData.append("roomType", roomType);
-  formData.append("roomPrice", roomPrice);
+  formData.append("roomType", roomData.roomType);
+  formData.append("roomPrice", roomData.roomPrice);
+  formData.append("photo", roomData.photo);
 
   try {
     const response = await api.put(`/rooms/edit/${roomId}`, formData);
-    return response.data;
+    console.log('Update Room Response:', response); // Log the response
+    return response;
   } catch (error) {
-    console.error("Error editing room:", error);
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.message || "Error editing room");
-    } else {
-      throw new Error("An unexpected error occurred while editing the room");
+    console.error('Error updating room:', error); // Log the error
+    throw error; // Rethrow the error so it can be caught in the component
+  }
+}
+
+export async function getRoomById(roomId) {
+  try {
+    const result = await api.get(`/rooms/room/${roomId}`);
+    return result.data;
+  } catch (error) {
+    throw new Error(`Error fetching room: ${error.message}`);
+  }
+}
+
+export async function editRoom(roomId, roomData) {
+  const formData = new FormData();
+  formData.append("roomType", roomData.roomType);
+  formData.append("roomPrice", roomData.roomPrice);
+  if (roomData.photo) {
+    formData.append("photo", roomData.photo);
+  }
+
+  try {
+    console.log('Sending editRoom request with:', { roomId, roomData });
+    const response = await api.put(`/rooms/edit/${roomId}`, formData);
+    console.log('Edit Room Response:', response); // Log the response
+    return response;
+  } catch (error) {
+    console.error('Error editing room:', error); // Log the error
+    if (error.response) {
+      console.error('Response data:', error.response.data); // Server response
     }
+    throw error; // Rethrow the error so it can be caught in the component
   }
 }
