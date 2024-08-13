@@ -16,12 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +36,10 @@ public class RoomController {
             @RequestParam("photo") MultipartFile photo,
             @RequestParam("roomType") String roomType,
             @RequestParam("roomPrice") BigDecimal roomPrice) throws SQLException, IOException {
+        // Log incoming data
+        System.out.println("Adding new room with type: " + roomType + " and price: " + roomPrice); // Added
+        System.out.println("Photo: " + photo.getOriginalFilename()); // Added
+
         Room savedRoom = roomService.addNewRoom(photo, roomType, roomPrice);
         RoomResponse response = new RoomResponse(savedRoom.getId(), savedRoom.getRoomType(), savedRoom.getRoomPrice());
         return ResponseEntity.ok(response);
@@ -49,7 +50,6 @@ public class RoomController {
         return roomService.getAllRoomTypes();
     }
 
-
     @PutMapping("/update/{roomId}")
     public ResponseEntity<?> updateRoom(@PathVariable Long roomId,
                                         @RequestParam(required = false) String roomType,
@@ -59,13 +59,16 @@ public class RoomController {
         byte[] photoBytes = null;
         try {
             if (photo != null && !photo.isEmpty()) {
+                System.out.println("Updating photo for room ID: " + roomId); // Added
                 photoBytes = photo.getBytes();
             } else {
+                System.out.println("No photo provided, retrieving existing photo for room ID: " + roomId); // Added
                 photoBytes = roomService.getRoomPhotoByRoomId(roomId);
             }
         } catch (IOException | SQLException e) {
+            System.err.println("Error processing the photo or retrieving existing photo: " + e.getMessage()); // Added
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error processing the photo or retrieving existing photo: " + e.getMessage());
+                    .body("Error processing the photo or retrieving existing photo: " + e.getMessage()); // Added
         }
 
         Room theRoom = roomService.updateRoom(roomId, roomType, roomPrice, photoBytes);
@@ -75,13 +78,22 @@ public class RoomController {
         return ResponseEntity.ok(roomResponse);
     }
 
-
     @PutMapping("/edit/{roomId}")
     public ResponseEntity<RoomResponse> editRoom(
             @PathVariable Long roomId,
             @RequestParam(value = "photo", required = false) MultipartFile photo,
             @RequestParam("roomType") String roomType,
             @RequestParam("roomPrice") BigDecimal roomPrice) throws SQLException, IOException {
+        // Log the incoming request data
+        System.out.println("Editing room with ID: " + roomId); // Added
+        System.out.println("New room type: " + roomType); // Added
+        System.out.println("New room price: " + roomPrice); // Added
+        if (photo != null) {
+            System.out.println("New photo: " + photo.getOriginalFilename()); // Added
+        } else {
+            System.out.println("No new photo provided."); // Added
+        }
+
         Room updatedRoom = roomService.editRoom(roomId, photo, roomType, roomPrice);
         RoomResponse response = new RoomResponse(updatedRoom.getId(), updatedRoom.getRoomType(), updatedRoom.getRoomPrice());
         return ResponseEntity.ok(response);
@@ -102,51 +114,18 @@ public class RoomController {
     @GetMapping("/all")
     public ResponseEntity<List<Room>> getAllRooms() throws SQLException {
         List<Room> rooms = roomService.getAllRooms();
-        System.out.println("Fetched rooms from DB: " + rooms);
-
-//        List<RoomResponse> responses = new ArrayList<>();
-//        for (Room room : rooms) {
-//            byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
-//            if (photoBytes != null && photoBytes.length > 0) {
-//                String base64Photo = new Base64().encodeBase64String(photoBytes);
-//                RoomResponse roomResponse = getRoomResponse(room);
-//                roomResponse.setPhoto(base64Photo);
-//                responses.add(roomResponse);
-//            }
-//        }
-//
-//        System.out.println("Responses to be sent: " + responses);
+        System.out.println("Fetched rooms from DB: " + rooms); // Added
         return ResponseEntity.ok(rooms);
     }
 
     private RoomResponse getRoomResponse(Room room) throws PhotoRetrievalException {
         List<BookedRoom> bookings = getAllBookingsByRoomId(room.getId());
-//        List<BookingResponse> bookingInfo = bookings.stream()
-//                .map(booking -> new BookingResponse(
-//                        booking.getBookingId(),
-//                        booking.getCheckInDate(),
-//                        booking.getCheckOutDate(),
-//                        booking.getBookingConformationCode()
-//                ))
-//                .toList();
-        byte[] photoBytes = null;
-//        Blob photoBlob = room.getPhoto();
-//        if (photoBlob != null) {
-//            try {
-//                photoBytes = photoBlob.getBytes(1, (int) photoBlob.length());
-//            } catch (SQLException e) {
-//                throw new PhotoRetrievalException("Error retrieving photo", e);
-//            }
-//        }
-        return new RoomResponse(room.getId(), room.getRoomType(), room.getRoomPrice(), room.isBooked());//, photoBytes);
+        return new RoomResponse(room.getId(), room.getRoomType(), room.getRoomPrice(), room.isBooked());
     }
 
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingService.getAllBookingsByRoomId(roomId);
     }
-
-
-
 
     @GetMapping("/room/{roomId}")
     public ResponseEntity<Optional<RoomResponse>> getRoomById(@PathVariable Long roomId) {
@@ -156,8 +135,4 @@ public class RoomController {
             return ResponseEntity.ok(Optional.of(roomResponse));
         }).orElseThrow(() -> new ResourceNotFoundException("Room not found"));
     }
-
-
-
-
 }

@@ -55,7 +55,14 @@ const EditRoom = () => {
         formData.append('photo', room.photo);
       }
 
+      // Log form data before sending
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
       const response = await updateRoom(roomId, formData);
+      console.log('Response from server:', response); // Log the response
+
       if (response.status === 200) {
         setSuccessMessage("Room updated successfully!");
         setErrorMessage("");
@@ -65,6 +72,9 @@ const EditRoom = () => {
       }
     } catch (error) {
       console.error("Error updating room:", error);
+      if (error.response) {
+        console.error("Server response:", error.response.data); // Log server error response
+      }
       setErrorMessage("Error updating room");
       setSuccessMessage("");
     }

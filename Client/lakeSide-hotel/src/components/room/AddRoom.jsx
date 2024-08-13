@@ -1,6 +1,7 @@
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import RoomTypeSelector from "../common/RoomTypeSelector";
 import { addRoom, getAllRooms } from "../utils/ApiFunctions";
 
@@ -15,18 +16,20 @@ const AddRoom = () => {
 
   const notyf = new Notyf();
 
+  // Link: fetchRooms function
   useEffect(() => {
     const storedRooms = JSON.parse(localStorage.getItem("rooms"));
     if (storedRooms) {
       setRooms(storedRooms);
     } else {
-      fetchRooms();
+      fetchRooms(); // Calls the fetchRooms function
     }
   }, []);
 
+  // Link: fetchRooms function
   const fetchRooms = async () => {
     try {
-      const fetchedRooms = await getAllRooms();
+      const fetchedRooms = await getAllRooms(); // Calls the getAllRooms function
       setRooms(fetchedRooms);
       localStorage.setItem("rooms", JSON.stringify(fetchedRooms));
     } catch (error) {
@@ -34,6 +37,7 @@ const AddRoom = () => {
     }
   };
 
+  // Link: handleRoomInputChange function
   const handleRoomInputChange = (e) => {
     const name = e.target.name;
     let value = e.target.value;
@@ -47,21 +51,23 @@ const AddRoom = () => {
     setNewRoom({ ...newRoom, [name]: value });
   };
 
+  // Link: handleImageChange function
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
     setNewRoom({ ...newRoom, photo: selectedImage });
     setImagePreview(URL.createObjectURL(selectedImage));
   };
 
+  // Link: handleSubmit function
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const success = await addRoom(newRoom.photo, newRoom.roomType, newRoom.roomPrice);
+      const success = await addRoom(newRoom.photo, newRoom.roomType, newRoom.roomPrice); // Calls the addRoom function
       if (success) {
         notyf.success("A New Room added successfully");
         setNewRoom({ photo: null, roomType: "", roomPrice: "" });
         setImagePreview("");
-        fetchRooms();
+        fetchRooms(); // Refresh the list of rooms after adding a new one
       } else {
         notyf.error("Error adding room");
       }
@@ -88,7 +94,7 @@ const AddRoom = () => {
                   Room Type
                 </label>
                 <RoomTypeSelector
-                  handleRoomInputChange={handleRoomInputChange}
+                  handleRoomInputChange={handleRoomInputChange} // Calls the handleRoomInputChange function
                   newRoom={newRoom}
                 />
               </div>
@@ -102,7 +108,7 @@ const AddRoom = () => {
                   name="roomPrice"
                   type="number"
                   value={newRoom.roomPrice}
-                  onChange={handleRoomInputChange}
+                  onChange={handleRoomInputChange} // Calls the handleRoomInputChange function
                 />
               </div>
               <div className="mb-3">
@@ -114,7 +120,7 @@ const AddRoom = () => {
                   id="photo"
                   name="photo"
                   type="file"
-                  onChange={handleImageChange}
+                  onChange={handleImageChange} // Calls the handleImageChange function
                 />
                 {imagePreview && (
                   <img
@@ -126,6 +132,9 @@ const AddRoom = () => {
                 )}
               </div>
               <div className="d-grid d-md-flex mt-2">
+                <Link to={"existing-rooms"} className="btn btn-outline-info">
+                  Back 
+                </Link>
                 <button className="btn btn-outline-primary ml-2" type="submit">Save Room</button>
               </div>
             </form>
