@@ -1,10 +1,18 @@
 import React from 'react';
+import MainHeader from '../../../layout/MainHeader'; // Importing MainHeader from the correct path
+import HotelService from './HotelService'; // Importing HotelService component
+import Parallax from './Parallax'; // Importing Parallax component
 
 const Home = () => {
   return (
-    <div>
-      <h2>Welcome to the home page</h2>
-    </div>
+    <section>
+      <MainHeader />
+      <section className="container">
+        <Parallax />
+        <HotelService />
+        <Parallax />
+      </section>
+    </section>
   );
 };
 
