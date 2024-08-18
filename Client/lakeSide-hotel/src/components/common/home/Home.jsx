@@ -3,17 +3,21 @@ import MainHeader from '../../../layout/MainHeader'; // Importing MainHeader fro
 import HotelService from '../HotelService'; // Importing HotelService component
 import Parallax from "../Parallax";
 import RoomCarousel from '../RoomCarousel';
+import SportsFacilities from '../SportsFacilities'; // Importing SportsFacilities component
+
 const Home = () => {
   return (
     <section>
       <MainHeader />
       <div className="container">
-        <RoomCarousel/>
+        <RoomCarousel />
         <Parallax />
-        <RoomCarousel/>
+        <RoomCarousel />
         <HotelService />
+        {/* New Sports Facilities Section */}
+        <SportsFacilities />
         <Parallax />
-        <RoomCarousel/>
+        <RoomCarousel />
       </div>
     </section>
   );

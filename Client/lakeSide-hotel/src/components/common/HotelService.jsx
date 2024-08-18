@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import { FaClock, FaParking, FaSnowflake, FaTshirt, FaUtensils, FaWifi, FaWineBottle } from "react-icons/fa";
+import { FaBriefcase, FaClock, FaDumbbell, FaParking, FaSnowflake, FaSpa, FaTshirt, FaUtensils, FaWifi, FaWineBottle } from "react-icons/fa"; // Added FaBriefcase
 import Header from "./Header";
 
 const HotelService = () => {
@@ -74,6 +74,36 @@ const HotelService = () => {
                   <FaSnowflake /> Air Conditioning
                 </Card.Title>
                 <Card.Text>Comfortable air-conditioned rooms</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col>
+            <Card>
+              <Card.Body>
+                <Card.Title className="hotel-color">
+                  <FaDumbbell /> Fitness Room
+                </Card.Title>
+                <Card.Text>Stay active with our fully-equipped fitness room</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col>
+            <Card>
+              <Card.Body>
+                <Card.Title className="hotel-color">
+                  <FaSpa /> Spa
+                </Card.Title>
+                <Card.Text>Relax and rejuvenate at our luxury spa</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col>
+            <Card>
+              <Card.Body>
+                <Card.Title className="hotel-color">
+                  <FaBriefcase /> Business Center
+                </Card.Title>
+                <Card.Text>Access to computers, printers, and office essentials</Card.Text>
               </Card.Body>
             </Card>
           </Col>
