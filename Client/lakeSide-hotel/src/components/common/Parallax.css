@@ -1,0 +1,12 @@
+.pool-image-container {
+    text-align: center; /* ממרכז את התמונה */
+    margin: 20px 0; /* הוספת מרווח סביב התמונה */
+  }
+  
+  .pool-image {
+    max-width: 100%; /* מוודא שהתמונה לא תהיה גדולה מדי */
+    height: auto; /* שומר על הפרופורציות של התמונה */
+    border-radius: 8px; /* הוספת פינות מעוגלות לתמונה */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* הוספת צל לתמונה */
+  }
+  

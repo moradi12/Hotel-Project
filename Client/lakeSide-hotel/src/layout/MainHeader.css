@@ -1,0 +1,62 @@
+/* MainHeader Component Styles */
+.header-banner {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+/* Overlay Background for Darkening the Image */
+.header-banner .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* 50% opacity black overlay */
+}
+
+/* Container for MainHeader Content */
+.header-banner .overlay-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Title Styles */
+.header-banner h1 {
+  font-size: 3.5rem;
+  margin: 0;
+}
+
+/* Subheading in MainHeader Component */
+.header-banner h4 {
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
+/* Specific Color for Highlighted Text */
+.hotel-color {
+  color: #ff5a5f;
+}
+
+/* Animation for Text Appearance */
+.animated-text {
+  animation: fadeInUp 2s ease-out;
+}
+
+/* Fade-In Up Animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

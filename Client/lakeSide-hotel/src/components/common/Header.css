@@ -1,0 +1,42 @@
+/* Header Component Styles */
+.header {
+  position: relative;
+  background-image: url('../../assets/service.jpg'); /* הגדרת רקע עם התמונה */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+/* Overlay Background for Darkening the Image */
+.header .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* 50% opacity black overlay */
+  z-index: 1; /* ensure the overlay is below the content */
+}
+
+/* Container for Header Content */
+.header .container {
+  position: relative;
+  z-index: 2; /* ensures the content is above the overlay */
+}
+
+/* Title Styles */
+.header-title {
+  font-size: 2.5rem;
+  margin: 0;
+  color: white; /* Ensure the title is white */
+}
+
+/* Text Centering */
+.text-center {
+  text-align: center;
+}

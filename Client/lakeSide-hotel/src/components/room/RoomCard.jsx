@@ -1,8 +1,12 @@
 import React from "react";
 import { Card, Col } from "react-bootstrap";
-import { Link } from "react-router-dom"; // Assuming you're using react-router-dom for routing
+import { Link } from "react-router-dom";
+import room1Image from "../../assets/room1.jpg"; // ודא שהשם הוא ללא רווחים ושזהו הנתיב הנכון
 
 const RoomCard = ({ room }) => {
+  // בדוק אם זה החדר הראשון והשתמש בתמונה המקומית
+  const roomImage = room.id === 1 ? room1Image : `data:image/png;base64,${room.photo}`;
+
   return (
     <Col key={room.id} className="mb-4" xs={12}>
       <Card>
@@ -10,7 +14,7 @@ const RoomCard = ({ room }) => {
           <div className="flex-shrink-0 mr-3 mb-3 mb-md-0">
             <Card.Img
               variant="top"
-              src={`data:image/png;base64,${room.photo}`}
+              src={roomImage}
               alt="Room Photo"
               style={{ width: "100%", maxWidth: "200px", height: "auto" }}
             />

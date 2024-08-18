@@ -1,19 +1,19 @@
-import React from 'react'
+import React from 'react';
+import hotelImage from '../assets/hotelImage.jpg'; // עדכון הנתיב לתמונה
+import './MainHeader.css';
 
 const MainHeader = () => {
   return (
-    <header className='header-banner'>
-        <div className='overlay'></div>
-        <div className='animated-text overlay-content'>
-            <h1>Welcome to<span className='hotel-color'>LakeSide Hotel</span></h1>
-            <h4>Experience The Best Hospotality In Town</h4>
+    <header className='header-banner' style={{ backgroundImage: `url(${hotelImage})` }}>
+      <div className='overlay'></div>
+      <div className='animated-text overlay-content'>
+        <h1>
+          Welcome to <span className="hotel-color">LakeSide Hotel</span>
+        </h1>
+        <h4>Experience The Best Hospitality In Town</h4>
+      </div>
+    </header>
+  );
+};
 
-        </div>
-        HeaderMain
-        
-        
-        </header>
-  )
-}
-
-export default MainHeader
+export default MainHeader;
