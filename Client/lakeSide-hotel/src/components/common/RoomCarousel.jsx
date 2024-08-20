@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Card, Carousel, Col, Container, Row } from "react-bootstrap"; // Assuming you're using react-bootstrap
+import { Card, Carousel, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getAllRooms } from "../utils/ApiFunctions"; // Adjust the import path as needed
+import { getAllRooms } from "../utils/ApiFunctions";
 
 const RoomCarousel = () => {
-  const [rooms, setRooms] = useState([{ id: "", roomType: "", roomPrice: "" }]);
+  const [rooms, setRooms] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -12,11 +12,15 @@ const RoomCarousel = () => {
     setIsLoading(true);
     getAllRooms()
       .then((data) => {
-        setRooms(data);
+        if (Array.isArray(data)) {
+          setRooms(data);
+        } else {
+          setErrorMessage("Invalid data format received from API.");
+        }
         setIsLoading(false);
       })
       .catch((error) => {
-        setErrorMessage(error.message);
+        setErrorMessage(error.message || "An unexpected error occurred.");
         setIsLoading(false);
       });
   }, []);
@@ -27,6 +31,10 @@ const RoomCarousel = () => {
 
   if (errorMessage) {
     return <div>Error: {errorMessage}</div>;
+  }
+
+  if (rooms.length === 0) {
+    return <div>No rooms available.</div>;
   }
 
   return (
@@ -46,10 +54,11 @@ const RoomCarousel = () => {
                       <Link to={`/book-room/${room.id}`}>
                         <Card.Img
                           variant="top"
-                          src={`data:image/png;base64,${room.photo}`}
-                          alt="Room Photo"
+                          src={room.photo ? `data:image/png;base64,${room.photo}` : "/path/to/default/image.png"}
+                          alt={`${room.roomType} Photo`}
                           className="w-100"
-                          style={{ height: "200px" }}
+                          style={{ height: "200px", objectFit: "cover" }}
+                          loading="lazy" // Lazy loading for performance
                         />
                       </Link>
                       <Card.Body>

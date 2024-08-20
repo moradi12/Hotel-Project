@@ -1,4 +1,6 @@
 package Project.Traveling.Model;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,17 +25,17 @@ public class Room {
     private String roomType;
     private BigDecimal roomPrice;
     private boolean isBooked = false;
+
     @Lob
-   private Blob photo;
+    private Blob photo;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<BookedRoom> bookings;
-
 
     public Room() {
         this.bookings = new ArrayList<>();
     }
-
 
     public void addBooking(BookedRoom booking) {
         if (bookings == null) {
@@ -41,9 +43,8 @@ public class Room {
         }
         bookings.add(booking);
         booking.setRoom(this);
-        isBooked=true;
+        isBooked = true;
         String bookingCode = RandomStringUtils.randomNumeric(10);
         booking.setBookingConformationCode(bookingCode);
     }
-
 }

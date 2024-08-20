@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import RoomFilter from '../common/RoomFilter'; // Ensure this import matches the file structure
-import RoomPaginator from "../common/RoomPaginator"; // Ensure this import matches the file structure
+import RoomFilter from '../common/RoomFilter';
+import RoomPaginator from "../common/RoomPaginator";
 import { getAllRooms } from '../utils/ApiFunctions';
-import RoomCard from './RoomCard'; // Ensure this import matches the file structure
+import RoomCard from './RoomCard';
 
 export const Room = () => {
     const [data, setData] = useState([]);
@@ -11,21 +11,36 @@ export const Room = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [roomsPerPage] = useState(6);
-    const [filteredData, setFilteredData] = useState([{id:""}]);
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
         setIsLoading(true);
         getAllRooms()
-            .then((data) => {
-                setData(data);
-                setFilteredData(data);
+            .then((responseData) => {
+                console.log("Received data from API:", responseData);
+
+                if (Array.isArray(responseData)) {
+                    const validData = responseData.map(room => ({
+                        id: room.id,
+                        roomType: room.roomType,
+                        roomPrice: room.roomPrice,
+                        photo: room.photo,
+                        bookings: room.bookings || [],
+                        booked: room.booked || false,
+                    }));
+                    setData(validData);
+                    setFilteredData(validData);
+                } else {
+                    throw new Error("Expected an array but received something else.");
+                }
                 setIsLoading(false);
             })
             .catch((error) => {
+                console.error("Error fetching rooms:", error);
                 setError(error.message);
                 setIsLoading(false);
             });
-    }, []); // Adding an empty dependency array to avoid running this effect on every render
+    }, []);
 
     if (isLoading) {
         return <div>Loading rooms...</div>;
@@ -43,6 +58,12 @@ export const Room = () => {
     const renderRooms = () => {
         const startIndex = (currentPage - 1) * roomsPerPage;
         const endIndex = startIndex + roomsPerPage;
+
+        if (!Array.isArray(filteredData)) {
+            console.error("filteredData is not an array:", filteredData);
+            return <div className="text-danger">Error: Invalid data format.</div>;
+        }
+
         return filteredData.slice(startIndex, endIndex).map((room) => (
             <RoomCard key={room.id} room={room} />
         ));
@@ -56,15 +77,17 @@ export const Room = () => {
                 </Col>
             </Row>
             <Row>
-                {renderRooms()}
+                {filteredData.length > 0 ? renderRooms() : <div>No rooms available.</div>}
             </Row>
             <Row>
                 <Col md={12} className="d-flex align-items-center justify-content-center mt-4">
-                    <RoomPaginator
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={handlePageChange}
-                    />
+                    {totalPages > 1 && (
+                        <RoomPaginator
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    )}
                 </Col>
             </Row>
         </Container>

@@ -1,0 +1,80 @@
+/* Main Container */
+.add-room-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+.add-room-container h1 {
+    font-weight: bold !important;
+    color: #333 !important;
+    margin-bottom: 30px !important;
+}
+/* Form Labels */
+.add-room-container .form-label {
+    font-weight: bold;
+    color: #495057;
+}
+
+/* Form Controls */
+.add-room-container .form-control {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease;
+}
+
+.add-room-container .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+}
+
+/* Image Preview */
+.add-room-container img {
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+/* Buttons */
+.add-room-container .btn-outline-primary,
+.add-room-container .btn-outline-info {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.add-room-container .btn-outline-primary:hover,
+.add-room-container .btn-outline-info:hover {
+    color: white;
+}
+
+.add-room-container .btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+}
+
+.add-room-container .btn-outline-primary:hover {
+    background-color: #007bff;
+}
+
+.add-room-container .btn-outline-info {
+    color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.add-room-container .btn-outline-info:hover {
+    background-color: #17a2b8;
+}
+
+/* Aligning the Back and Save Buttons */
+.add-room-container .d-grid.d-md-flex {
+    justify-content: flex-end;
+}
+
+.add-room-container .d-grid.d-md-flex .ml-2 {
+    margin-left: 10px;
+}

@@ -1,5 +1,6 @@
 package Project.Traveling.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,9 +11,8 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-
 public class BookedRoom {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
@@ -22,6 +22,7 @@ public class BookedRoom {
 
     @Column(name = "check_Out")
     private LocalDate checkOutDate;
+
     @Column(name = "gust_FullName")
     private String gustFullName;
 
@@ -40,37 +41,34 @@ public class BookedRoom {
     @Column(name = "confirmation_Code")
     private String bookingConfirmationCode;
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_ID")
+    @JsonBackReference
     private Room room;
 
-
-
-
-    public void CalculateTotalNumberOfGuest() {
-        this.totalNumberOfGuest = this.numberOfAdults + numberOfChildren;
+    public void calculateTotalNumberOfGuest() {
+        this.totalNumberOfGuest = this.numberOfAdults + this.numberOfChildren;
     }
 
     public void setNumberOfAdults(int numberOfAdults) {
-        numberOfAdults = numberOfAdults;
-        CalculateTotalNumberOfGuest();
+        this.numberOfAdults = numberOfAdults;
+        calculateTotalNumberOfGuest();
     }
 
     public void setNumberOfChildren(int numberOfChildren) {
-        numberOfChildren = numberOfChildren;
-        CalculateTotalNumberOfGuest();
+        this.numberOfChildren = numberOfChildren;
+        calculateTotalNumberOfGuest();
     }
 
-    public BookedRoom(String bookingConformationCode) {
-        this.bookingConfirmationCode  = bookingConformationCode;
+    public BookedRoom(String bookingConfirmationCode) {
+        this.bookingConfirmationCode = bookingConfirmationCode;
     }
 
-    public void setBookingConformationCode(String bookingConformationCode) {
-        this.bookingConfirmationCode  = bookingConformationCode;
-
+    public void setBookingConformationCode(String bookingConfirmationCode) {
+        this.bookingConfirmationCode = bookingConfirmationCode;
     }
 
     public String getBookingConfirmationCode() {
-        return this.bookingConfirmationCode ;
+        return this.bookingConfirmationCode;
     }
 }

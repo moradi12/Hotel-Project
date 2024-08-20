@@ -6,11 +6,12 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
   const [roomTypes, setRoomTypes] = useState([]);
   const [showNewRoomTypeInput, setShowNewRoomTypeInput] = useState(false);
   const [newRoomType, setNewRoomType] = useState("");
+  const [feedbackMessage, setFeedbackMessage] = useState("");
 
   useEffect(() => {
-    getRoomTypes().then((data) => {
-      setRoomTypes(data);
-    });
+    getRoomTypes()
+      .then((data) => setRoomTypes(data))
+      .catch((error) => console.error("Error fetching room types:", error));
   }, []);
 
   const handleNewRoomTypeInputChange = (e) => {
@@ -19,8 +20,17 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
 
   const handleAddNewRoomType = () => {
     if (newRoomType.trim() !== "") {
-      setRoomTypes([...roomTypes, newRoomType]);
-      handleRoomInputChange({ target: { name: "roomType", value: newRoomType } });
+      if (!roomTypes.includes(newRoomType)) {
+        setRoomTypes([...roomTypes, newRoomType]);
+        handleRoomInputChange({
+          target: { name: "roomType", value: newRoomType },
+        });
+        setFeedbackMessage("New room type added successfully!");
+        setTimeout(() => setFeedbackMessage(""), 3000);
+      } else {
+        setFeedbackMessage("Room type already exists!");
+        setTimeout(() => setFeedbackMessage(""), 3000);
+      }
       setNewRoomType("");
       setShowNewRoomTypeInput(false);
     }
@@ -43,6 +53,7 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
         name="roomType"
         value={newRoom.roomType}
         onChange={handleRoomTypeChange}
+        className="form-select"
       >
         <option value="">Select a room type</option>
         {roomTypes.map((type, index) => (
@@ -69,6 +80,9 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
             Add
           </button>
         </div>
+      )}
+      {feedbackMessage && (
+        <div className="alert alert-info mt-2">{feedbackMessage}</div>
       )}
     </>
   );

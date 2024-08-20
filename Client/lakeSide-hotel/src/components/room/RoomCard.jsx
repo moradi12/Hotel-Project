@@ -1,11 +1,11 @@
 import React from "react";
 import { Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import room1Image from "../../assets/room1.jpg"; // ודא שהשם הוא ללא רווחים ושזהו הנתיב הנכון
+import defaultImage from "../../assets/RoomLvl.jpg"; // This is the image you want to use
 
 const RoomCard = ({ room }) => {
-  // בדוק אם זה החדר הראשון והשתמש בתמונה המקומית
-  const roomImage = room.id === 1 ? room1Image : `data:image/png;base64,${room.photo}`;
+  // If the room has a photo, use it; otherwise, use the default image
+  const roomImage = room.photo ? `data:image/png;base64,${room.photo}` : defaultImage;
 
   return (
     <Col key={room.id} className="mb-4" xs={12}>
@@ -21,13 +21,13 @@ const RoomCard = ({ room }) => {
           </div>
           <div className="flex-grow-1 ml-3 px-5">
             <Card.Title className="hotel-color">{room.roomType}</Card.Title>
-            <Card.Title className="hotel-price">{room.roomPrice}</Card.Title>
+            <Card.Title className="hotel-price">${room.roomPrice}/night</Card.Title>
             <Card.Text>
-              Some room information goes here for the guest.
+              A cozy {room.roomType} available at our hotel. Enjoy your stay!
             </Card.Text>
           </div>
           <div className="flex-shrink-0 mt-3">
-            <Link to={`bookings/${room.id}`} className="btn btn-hotel btn-sm">
+            <Link to={`/book-room/${room.id}`} className="btn btn-hotel btn-sm">
               Book Now
             </Link>
           </div>

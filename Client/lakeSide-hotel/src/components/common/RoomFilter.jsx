@@ -1,4 +1,3 @@
-// RoomFilter.jsx
 import { useState } from "react";
 
 const RoomFilter = ({ data, setFilteredData }) => {
@@ -29,6 +28,7 @@ const RoomFilter = ({ data, setFilteredData }) => {
         className="form-select"
         value={filter}
         onChange={handleSelectChange}
+        aria-label="Filter rooms by type"
       >
         <option value="">Select a room type to filter...</option>
         {roomTypes.map((type, index) => (

@@ -1,0 +1,128 @@
+Main Container
+.existing-rooms-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+.existing-rooms-container h1 {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Add New Room Button */
+.existing-rooms-container .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    transition: background-color 0.3s ease;
+}
+
+.existing-rooms-container .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Filter and Clear Filter */
+.existing-rooms-container .form-label {
+    font-weight: bold;
+    color: #495057;
+}
+
+.existing-rooms-container .form-select {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease;
+}
+
+.existing-rooms-container .form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+}
+
+.existing-rooms-container .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transition: background-color 0.3s ease;
+}
+
+.existing-rooms-container .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+/* Success Message Alert */
+.existing-rooms-container .alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    border-radius: 4px;
+}
+
+/* Table */
+.existing-rooms-container .table {
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.existing-rooms-container .table th,
+.existing-rooms-container .table td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 12px;
+}
+
+.existing-rooms-container .table th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+
+.existing-rooms-container .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+}
+
+.existing-rooms-container .table-striped tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Action Buttons */
+.existing-rooms-container .btn-group .btn {
+    padding: 6px 12px;
+    font-size: 16px;
+}
+
+.existing-rooms-container .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.existing-rooms-container .btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.existing-rooms-container .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.existing-rooms-container .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* No Rooms Available */
+.existing-rooms-container .table td.text-center {
+    color: #6c757d;
+    font-style: italic;
+}
