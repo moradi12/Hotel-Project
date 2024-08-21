@@ -16,8 +16,6 @@ const Home = () => {
         <HotelService />
         {/* New Sports Facilities Section */}
         <SportsFacilities />
-        <Parallax />
-        <RoomCarousel />
       </div>
     </section>
   );
