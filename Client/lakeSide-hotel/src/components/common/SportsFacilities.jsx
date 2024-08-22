@@ -149,9 +149,9 @@ const SportsFacilities = () => {
           >
             <Card.Body className="d-flex flex-column justify-content-center text-center">
               <Card.Title style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem' }}>
-                <FaSwimmer style={{ marginRight: '10px', fontSize: '2rem' }} /> Ice Bath
+                <FaVolleyballBall style={{ marginRight: '10px', fontSize: '2rem' }} /> Volleyball
               </Card.Title>
-              <Card.Text>Rejuvenate with a refreshing ice bath.</Card.Text>
+              <Card.Text>Enjoy a competitive game of volleyball on our sand courts.</Card.Text>
             </Card.Body>
           </Card>
         </Col>

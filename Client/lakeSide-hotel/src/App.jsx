@@ -26,7 +26,6 @@ function App() {
           <Route path="/book-room/:roomId" element={<Checkout />} />
           <Route path="/browse-all-rooms" element={<RoomListing />} />
           <Route path="/browse-rooms" element={<ExistingRooms />} />
-
           <Route path="/admin" element={<Admin />} />
           <Route path="/booking-success" element={<BookingSuccess />} />
         </Routes>

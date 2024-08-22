@@ -1,0 +1,26 @@
+.card-img-top {
+    border-radius: 10px;
+    object-fit: cover;
+    height: 150px; /* Adjust this value to change the image height */
+    width: 100%; /* Ensure the image takes up the full width of its container */
+  }
+  
+  .hotel-color {
+    font-weight: bold;
+    color: #5a5a5a; /* Modify this to match your design */
+  }
+  
+  .hotel-price {
+    color: #a83f73; /* Example price color */
+    font-weight: bold;
+  }
+  
+  .btn-hotel {
+    background-color: #a83f73; /* Button color */
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

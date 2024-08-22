@@ -4,6 +4,7 @@ import HotelService from '../HotelService'; // Importing HotelService component
 import Parallax from "../Parallax";
 import RoomCarousel from '../RoomCarousel';
 import SportsFacilities from '../SportsFacilities'; // Importing SportsFacilities component
+import RoomSearchForm from '../booking/RoomSearchForm'; // Importing RoomSearchForm component
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
       <MainHeader />
       <div className="container">
         <RoomCarousel />
+        <RoomSearchForm /> {/* Adding the RoomSearchForm here */}
         <Parallax />
         <RoomCarousel />
         <HotelService />
