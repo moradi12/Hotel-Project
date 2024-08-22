@@ -1,25 +1,38 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import allImage from '../../assets/all.jpg'; // Import the new image
-import poolImage from '../../assets/OurPool.jpg'; // Import the image
-import './Parallax.css'; // Import the CSS file
+import allImage from '../../assets/all.jpg'; // ייבוא התמונה החדשה
+import poolImage from '../../assets/OurPool.jpg'; // ייבוא התמונה
+import './Parallax.css'; // ייבוא קובץ ה-CSS
 
 const Parallax = () => {
   return (
     <>
-          <Container className='text-center px-5 py-5 justify-content-center'>
+      <Container className='text-center px-5 py-5 justify-content-center'>
         <div className='animated-texts bounceIn'>
-          <h1>Welcome to <span className='hotel-color'>LakeSide Hotel</span></h1>
+          <h1>
+            Welcome to <span className='hotel-color'>LakeSide Hotel</span>
+          </h1>
           <h3>We offer the best services for all your needs</h3>
         </div>
       </Container>
-      {/* Add the new image above the content */}
+
+      {/* הוספת התמונה החדשה מעל התוכן */}
       <div className="additional-image-container">
         <img src={allImage} alt="Additional View" className="img-fluid additional-image" />
       </div>
-      <div className='parallax mb-5'></div>
 
-      <div className="pool-image-container">
+      {/* סעיף "About Us" */}
+      <Container className='about-us text-center px-5 py-3 justify-content-center'>
+        <h2>About Us</h2>
+        <p className="about-text">
+          At LakeSide Hotel, we take immense pride in offering unparalleled hospitality and luxurious accommodations 
+          to every guest. Whether you are here for a serene vacation or an important business engagement, our hotel 
+          provides the perfect fusion of comfort, elegance, and convenience. With breathtaking lake views, state-of-the-art 
+          amenities, and exceptional service, we are committed to ensuring that your stay with us is nothing short of extraordinary.
+        </p>
+      </Container>
+
+      <div className="pool-image-container mb-0">
         <img src={poolImage} alt="Our Pool" className="img-fluid pool-image" />
       </div>
     </>

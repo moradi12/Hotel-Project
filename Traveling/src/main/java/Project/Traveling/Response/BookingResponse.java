@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Data
 public class BookingResponse {
 
-
     private Long id;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
@@ -19,17 +18,11 @@ public class BookingResponse {
     private String guestEmail;
 
     private int numberOfAdults;
-
     private int numberOfChildren;
-
     private int totalNumberOfGuest;
-
     private String bookingConformationCode;
 
-
-
     private RoomResponse room;
-
 
     public BookingResponse(Long id, LocalDate checkInDate, LocalDate checkOutDate,
                            String bookingConformationCode) {
@@ -38,7 +31,4 @@ public class BookingResponse {
         this.checkOutDate = checkOutDate;
         this.bookingConformationCode = bookingConformationCode;
     }
-
-
-
 }

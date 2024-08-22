@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import { FaBasketballBall, FaFootballBall, FaHockeyPuck, FaSnowflake, FaSwimmer, FaVolleyballBall } from "react-icons/fa";
+import { FaBasketballBall, FaBiking, FaBowlingBall, FaFootballBall, FaHockeyPuck, FaSnowflake, FaSwimmer, FaVolleyballBall } from "react-icons/fa";
 import sportsFacilitiesImage from '../../../../lakeSide-hotel/src/assets/SportsFacilities.jpg'; // Import the image
 
 const SportsFacilities = () => {
@@ -25,7 +25,7 @@ const SportsFacilities = () => {
         marginBottom: '50px', // Added more space below the title
         color: 'white' // Ensures the title text is visible over the image
       }}>
-        SportsFacilities
+        Sports Facilities
       </h2>
 
       <Row xs={1} md={2} lg={3} className="g-4">
@@ -173,6 +173,48 @@ const SportsFacilities = () => {
                 <FaSwimmer style={{ marginRight: '10px', fontSize: '2rem' }} /> Olympic Swimming Pool
               </Card.Title>
               <Card.Text>Swim in our Olympic-sized swimming pool.</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col>
+          <Card 
+            style={{ 
+              height: '100%', 
+              borderRadius: '15px', 
+              background: 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(240,240,240,0.8))', 
+              color: '#007bff',
+              boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)', 
+              marginBottom: '20px', 
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            }}
+            className="hover-shadow"
+          >
+            <Card.Body className="d-flex flex-column justify-content-center text-center">
+              <Card.Title style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem' }}>
+                <FaBowlingBall style={{ marginRight: '10px', fontSize: '2rem' }} /> Bowling Alley
+              </Card.Title>
+              <Card.Text>Have a blast with friends at our modern bowling alley.</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col>
+          <Card 
+            style={{ 
+              height: '100%', 
+              borderRadius: '15px', 
+              background: 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(240,240,240,0.8))', 
+              color: '#007bff',
+              boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)', 
+              marginBottom: '20px', 
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            }}
+            className="hover-shadow"
+          >
+            <Card.Body className="d-flex flex-column justify-content-center text-center">
+              <Card.Title style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem' }}>
+                <FaBiking style={{ marginRight: '10px', fontSize: '2rem' }} /> Cycling
+              </Card.Title>
+              <Card.Text>Explore scenic routes with our cycling facilities.</Card.Text>
             </Card.Body>
           </Card>
         </Col>

@@ -1,12 +1,41 @@
-.pool-image-container {
-    text-align: center; /* ממרכז את התמונה */
-    margin: 20px 0; /* הוספת מרווח סביב התמונה */
-  }
-  
-  .pool-image {
-    max-width: 100%; /* מוודא שהתמונה לא תהיה גדולה מדי */
-    height: auto; /* שומר על הפרופורציות של התמונה */
-    border-radius: 8px; /* הוספת פינות מעוגלות לתמונה */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* הוספת צל לתמונה */
-  }
-  
+.animated-texts h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.animated-texts h1 .hotel-color {
+  color: #b565a7; /* התאמת צבע */
+  font-weight: 700;
+}
+
+.animated-texts h3 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #333;
+  margin-top: 10px;
+}
+
+.about-us h2 {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem; /* רווח מתחת לכותרת */
+}
+
+.about-us .about-text {
+  font-size: 1.25rem; /* הגדלת גודל הגופן */
+  line-height: 1.8; /* הגדלת מרווח בין השורות */
+  color: #444; /* צבע כהה יותר לטון רשמי יותר */
+  margin-bottom: 1rem;
+  font-weight: 500; /* הפיכת הטקסט לעבה יותר */
+}
+
+.about-us {
+  background-color: #f7f7f7;
+  padding: 2rem;
+  border-radius: 10px;
+  border: 2px solid #b565a7; /* מסגרת בגוון תואם */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל קל */
+  margin-top: 2rem;
+  margin-bottom: 3rem; /* הוספת רווח מתחת ל-"About Us" */
+}
