@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: #ffffff; /* White text color */
   text-align: center;
 }
 
@@ -18,7 +18,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* 50% opacity black overlay */
+  background: rgba(0, 0, 0, 0.6); /* Increased opacity to 60% for better contrast */
 }
 
 /* Container for MainHeader Content */
@@ -31,17 +31,19 @@
 .header-banner h1 {
   font-size: 3.5rem;
   margin: 0;
+  font-family: 'Roboto', sans-serif; /* Ensure consistent font usage */
 }
 
 /* Subheading in MainHeader Component */
 .header-banner h4 {
   font-size: 2rem;
   margin-top: 1rem;
+  color: #f8b400; /* Bright orange for subheading */
 }
 
 /* Specific Color for Highlighted Text */
 .hotel-color {
-  color: #ff5a5f;
+  color: #003366; /* Deep blue color for hotel name */
 }
 
 /* Animation for Text Appearance */
@@ -58,5 +60,16 @@
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .header-banner h1 {
+    font-size: 2.5rem;
+  }
+
+  .header-banner h4 {
+    font-size: 1.5rem;
   }
 }

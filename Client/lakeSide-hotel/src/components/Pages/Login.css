@@ -1,0 +1,96 @@
+/* Login.css */
+.login-container {
+    max-width: 400px;
+    margin: 50px auto; /* Increased top margin for more breathing room */
+    padding: 30px; /* Added more padding for a comfortable layout */
+    background-color: #ffffff; /* Clean white background */
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Added transform transition */
+}
+
+.login-container:hover {
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px); /* Lift effect on hover */
+}
+
+.login-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px; /* Increased bottom margin for better spacing */
+    font-size: 28px; /* Slightly increased font size for prominence */
+    font-weight: 700; /* Increased font weight for emphasis */
+    letter-spacing: 1px; /* Added slight letter spacing for readability */
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container label {
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #34495e;
+    font-size: 16px; /* Increased font size for better readability */
+}
+
+.login-container input {
+    padding: 14px; /* Further increased padding for better usability */
+    margin-bottom: 20px; /* Increased margin for better spacing */
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #f5f7fa; /* Slightly lighter background for inputs */
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.login-container input:focus {
+    border-color: #3498db;
+    background-color: #ffffff; /* Background turns white on focus for clarity */
+    outline: none;
+}
+
+.login-container button {
+    padding: 14px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px; /* Increased font size for better visibility */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-container button:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px); /* Slightly more pronounced lift effect */
+}
+
+.login-container p {
+    margin-top: 25px; /* Increased top margin for better spacing */
+    text-align: center;
+    color: #e74c3c;
+    font-size: 16px; /* Increased font size for clarity */
+    font-weight: 500; /* Added font weight for emphasis */
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px;
+        margin: 30px;
+    }
+
+    .login-container h2 {
+        font-size: 24px;
+    }
+
+    .login-container input,
+    .login-container button {
+        font-size: 16px;
+    }
+
+    .login-container p {
+        font-size: 14px;
+    }
+}

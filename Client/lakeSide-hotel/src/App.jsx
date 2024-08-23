@@ -7,6 +7,7 @@ import Admin from './components/admin/Admin';
 import BookingSuccess from './components/common/booking/BookingSuccess';
 import Checkout from './components/common/booking/Checkout';
 import Home from './components/common/home/Home';
+import Login from './components/Pages/Login'; // Adjusted import path
 import AddRoom from './components/room/AddRoom';
 import EditRoom from './components/room/EditRoom';
 import ExistingRooms from "./components/room/ExistingRooms";
@@ -28,6 +29,7 @@ function App() {
           <Route path="/browse-rooms" element={<ExistingRooms />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/booking-success" element={<BookingSuccess />} />
+          <Route path="/login" element={<Login />} /> {/* Added login route */}
         </Routes>
         <Footer />
       </Router>

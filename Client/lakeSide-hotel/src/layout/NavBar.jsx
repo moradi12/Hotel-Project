@@ -7,7 +7,7 @@ const NavBar = () => {
     <Navbar bg="white" expand="lg" className="shadow-sm py-3">
       <Container>
         <Navbar.Brand as={Link} to="/" className="fw-bold text-primary">
-          LakeSide Hotel
+        Sunset Queen Hotel
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -39,6 +39,7 @@ const NavBar = () => {
               <NavDropdown.Item as={Link} to="/user">User</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/admin">Admin</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/profile">Profile</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item as={Link} to="/logout">Logout</NavDropdown.Item>
             </NavDropdown>
