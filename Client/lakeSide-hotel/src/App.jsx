@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 // Component Imports
@@ -16,10 +16,23 @@ import Footer from './layout/Footer';
 import NavBar from './layout/NavBar';
 
 function App() {
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    document.body.classList.add(theme);
+    return () => {
+      document.body.classList.remove(theme);
+    };
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
   return (
     <main>
       <Router>
-        <NavBar />
+        <NavBar toggleTheme={toggleTheme} currentTheme={theme} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/edit-room/:roomId" element={<EditRoom />} />
