@@ -1,4 +1,4 @@
-import { UserType } from 'C:/Users/tamir/OneDrive/Desktop/Hotel-Project-master/Client/lakeSide-hotel/src/components/Models/UserType.ts';
+import { UserType } from '../Models/UserType';
 export interface Credentials {
   email: string;
   password: string;

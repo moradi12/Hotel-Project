@@ -1,10 +1,13 @@
+// store.ts
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { AuthReducer } from "./AuthReducer";
-import { CustomerReducer } from "C:/Users/tamir/OneDrive/Desktop/Hotel-Project-master/Client/lakeSide-hotel/src/components/common/Redux/CustomerReducer.ts"; // Updated import path
+import { CustomerReducer } from "./CustomerReducer";
+import RoomReducers from "./RoomReducers";
 
 const reducers = combineReducers({ 
     auth: AuthReducer,
-    customer: CustomerReducer // Updated the reducer key from 'company' to 'customer'
+    customer: CustomerReducer, 
+    rooms: RoomReducers 
 });
 
 export const hotelSystem = configureStore({

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { updateTokenAction } from '../common/Redux/AuthReducer'; // Ensure this import is correct
-import { hotelSystem } from '../common/Redux/Store';
+import { hotelSystem } from '../common/Redux/store';
 
 const axiosJWT = axios.create();
 

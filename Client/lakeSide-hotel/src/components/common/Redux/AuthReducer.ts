@@ -1,14 +1,13 @@
-
 export class authState {
     email: string = "";
     name: string = "guest";
-    id:number = 0;
+    id: number = 0;
     token: string = "";
     userType: string = "";
-    isLogged:boolean = false;
+    isLogged: boolean = false;
 }
 
-//login, logout, updateToken
+// login, logout, updateToken
 export enum AuthActionType {
     login = "login",
     logout = "logout",
@@ -21,18 +20,21 @@ export interface AuthAction {
 }
 
 export function loginAction(user: authState): AuthAction {
-    return { type: AuthActionType.login, payload: user }
+    return { type: AuthActionType.login, payload: user };
 }
 
 export function logoutAction(): AuthAction {
-    return { type: AuthActionType.logout }
+    return { type: AuthActionType.logout };
 }
 
 export function updateTokenAction(token: string): AuthAction {
-    return { type: AuthActionType.updateToken, payload: token }
+    return { type: AuthActionType.updateToken, payload: token };
 }
 
-export function AuthReducer(currentState: authState = new authState(), action: AuthAction): authState {
+export function AuthReducer(
+    currentState: authState = new authState(),
+    action: AuthAction
+): authState {
     let newState = { ...currentState };
 
     switch (action.type) {

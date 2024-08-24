@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
-import { loginAction } from "../Redux/AuthReducer";
-import { couponSystem } from "../Redux/Store";
+import { loginAction } from "../common/Redux/AuthReducer";
+import { hotelSystem } from "../common/Redux/Store";
 
 type jwtData = {
     userType: string,
@@ -12,7 +12,7 @@ type jwtData = {
 };
 
 export const checkData = () => {
-    const state = couponSystem.getState();
+    const state = hotelSystem.getState();
     
     if (!state.auth.token || state.auth.token.length < 10) {
         try {
@@ -32,7 +32,7 @@ export const checkData = () => {
                 isLogged: true
             };
 
-            couponSystem.dispatch(loginAction(myAuth));
+            hotelSystem.dispatch(loginAction(myAuth));
         } catch (error) {
             console.error("Error decoding JWT", error);
             return;

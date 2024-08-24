@@ -1,10 +1,10 @@
 import React from 'react';
-import MainHeader from '../../../layout/MainHeader'; // Importing MainHeader from the correct path
-import HotelService from '../HotelService'; // Importing HotelService component
+import MainHeader from '../../../layout/MainHeader'; // Corrected path for MainHeader
+import HotelService from '../HotelService';
 import Parallax from "../Parallax";
 import RoomCarousel from '../RoomCarousel';
-import SportsFacilities from '../SportsFacilities'; // Importing SportsFacilities component
-import RoomSearchForm from '../booking/RoomSearchForm'; // Importing RoomSearchForm component
+import SportsFacilities from '../SportsFacilities';
+import RoomSearchForm from '../booking/RoomSearchForm';
 
 const Home = () => {
   return (
@@ -12,11 +12,10 @@ const Home = () => {
       <MainHeader />
       <div className="container">
         <RoomCarousel />
-        <RoomSearchForm /> {/* Adding the RoomSearchForm here */}
+        <RoomSearchForm />
         <Parallax />
         <RoomCarousel />
         <HotelService />
-        {/* New Sports Facilities Section */}
         <SportsFacilities />
       </div>
     </section>
