@@ -7,19 +7,21 @@ import Admin from './components/admin/Admin';
 import BookingSuccess from './components/common/booking/BookingSuccess';
 import Checkout from './components/common/booking/Checkout';
 import Home from './components/common/home/Home';
-import Login from './components/Pages/Login'; // Adjusted import path
-import Profile from './components/Pages/Profile'; // Import Profile component
+import Login from './components/Pages/Login';
+import Profile from './components/Pages/Profile';
 import AddRoom from './components/room/AddRoom';
 import EditRoom from './components/room/EditRoom';
 import ExistingRooms from "./components/room/ExistingRooms";
 import RoomListing from './components/room/RoomListing';
 import Footer from './layout/Footer';
 import NavBar from './layout/NavBar';
+
 function App() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
 
   useEffect(() => {
     document.body.classList.add(theme);
+    localStorage.setItem('theme', theme);
     return () => {
       document.body.classList.remove(theme);
     };
@@ -42,7 +44,7 @@ function App() {
           <Route path="/browse-rooms" element={<ExistingRooms />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/booking-success" element={<BookingSuccess />} />
-          <Route path="/login" element={<Login />} /> {/* Added login route */}
+          <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />

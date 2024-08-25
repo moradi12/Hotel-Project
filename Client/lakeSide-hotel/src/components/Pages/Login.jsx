@@ -14,14 +14,12 @@ const Login = ({ setRender }) => {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     // Check if the user is already logged in
     const token = sessionStorage.getItem("jwt");
     if (token) {
-      setIsLoggedIn(true);
       navigate("/browse-rooms");
     }
   }, [navigate]);
@@ -45,7 +43,7 @@ const Login = ({ setRender }) => {
     event.preventDefault();
     setError("");
     setIsLoading(true);
-  
+
     try {
       const res = await axios.post(
         "http://localhost:9192/booked-rooms/login",
@@ -63,33 +61,38 @@ const Login = ({ setRender }) => {
         })
       );
       sessionStorage.setItem("jwt", JWT);
-      setIsLoggedIn(true);
       navigate("/browse-rooms");
-  
+
       // Log to console after successful login
       console.log("Login successful:", res.data.userName, credentials.userType);
+      
+      // Trigger a re-render in the parent component if provided
+      if (typeof setRender === "function") {
+        setRender(true);
+      }
     } catch (error) {
       setError("Login failed. Please check your credentials.");
       console.error("Login error:", error.message);
     } finally {
       setIsLoading(false);
-      if (typeof setRender === "function") {
-        setRender(true);
-      }
     }
   };
 
   const handleLogout = () => {
     hotelSystem.dispatch(logoutAction());
     sessionStorage.removeItem("jwt");
-    setIsLoggedIn(false);
     navigate("/login");
     console.log("User logged out successfully");
+    
+    // Trigger a re-render in the parent component if provided
+    if (typeof setRender === "function") {
+      setRender(true);
+    }
   };
 
   return (
     <div className="login-container">
-      {isLoggedIn ? (
+      {sessionStorage.getItem("jwt") ? (
         <div>
           <h2>Welcome back!</h2>
           <button onClick={handleLogout} className="logout-button">
