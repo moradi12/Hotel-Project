@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Form, Modal, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Button, Container, Modal, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { FaBell } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { logoutAction } from '../components/common/Redux/AuthReducer';
@@ -92,15 +92,6 @@ const NavBar = () => {
               </Nav.Link>
             </Nav>
             <Nav className="d-flex align-items-center ms-auto">
-              <Form className="d-flex me-3">
-                <Form.Control
-                  type="search"
-                  placeholder="Search"
-                  className="me-2"
-                  aria-label="Search"
-                />
-                <Button variant="outline-success">Search</Button>
-              </Form>
               <Nav.Link as={Link} to="/notifications" style={{ marginRight: '20px', position: 'relative', color: '#ff4757' }}>
                 <FaBell />
                 {unreadCount > 0 && <span className="badge bg-danger">{unreadCount}</span>}
@@ -110,7 +101,7 @@ const NavBar = () => {
               </Nav.Link>
               {isLoggedIn ? (
                 <>
-                  <NavDropdown title={`Welcome, ${userType === "ADMIN" ? "Admin" : userName}`} id="navbarDropdown">
+                  <NavDropdown title={`Hello, ${userType === "ADMIN" ? "Admin" : userName}`} id="navbarDropdown">
                     <NavDropdown.Item as={Link} to="/profile">
                       Profile
                     </NavDropdown.Item>

@@ -8,13 +8,13 @@ import BookingSuccess from './components/common/booking/BookingSuccess';
 import Checkout from './components/common/booking/Checkout';
 import Home from './components/common/home/Home';
 import Login from './components/Pages/Login'; // Adjusted import path
+import Profile from './components/Pages/Profile'; // Import Profile component
 import AddRoom from './components/room/AddRoom';
 import EditRoom from './components/room/EditRoom';
 import ExistingRooms from "./components/room/ExistingRooms";
 import RoomListing from './components/room/RoomListing';
 import Footer from './layout/Footer';
 import NavBar from './layout/NavBar';
-
 function App() {
   const [theme, setTheme] = useState('light');
 
@@ -43,6 +43,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/booking-success" element={<BookingSuccess />} />
           <Route path="/login" element={<Login />} /> {/* Added login route */}
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
       </Router>
