@@ -6,6 +6,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Admin from './components/admin/Admin';
 import BookingSuccess from './components/common/booking/BookingSuccess';
 import Checkout from './components/common/booking/Checkout';
+import ManageBookings from './components/common/booking/ManageBookings';
 import Home from './components/common/home/Home';
 import Login from './components/Pages/Login';
 import Profile from './components/Pages/Profile';
@@ -13,6 +14,7 @@ import AddRoom from './components/room/AddRoom';
 import EditRoom from './components/room/EditRoom';
 import ExistingRooms from "./components/room/ExistingRooms";
 import RoomListing from './components/room/RoomListing';
+import RoomManagement from './components/room/RoomManagement';
 import Footer from './layout/Footer';
 import NavBar from './layout/NavBar';
 
@@ -42,6 +44,8 @@ function App() {
           <Route path="/book-room/:roomId" element={<Checkout />} />
           <Route path="/browse-all-rooms" element={<RoomListing />} />
           <Route path="/browse-rooms" element={<ExistingRooms />} />
+          <Route path="/room-management" element={<RoomManagement />} />
+          <Route path="/manage-bookings" element={<ManageBookings />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/booking-success" element={<BookingSuccess />} />
           <Route path="/login" element={<Login />} />

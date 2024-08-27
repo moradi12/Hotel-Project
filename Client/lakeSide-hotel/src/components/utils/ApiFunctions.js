@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const API_BASE_URL = "http://localhost:9192";
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -261,3 +260,15 @@ export async function logoutUser() {
     throw new Error(error.response?.data || "Error logging out");
   }
 }
+
+// Function to delete a booking
+export async function deleteBooking(bookingId) {
+  try {
+    const response = await api.delete(`/bookings/delete/${bookingId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting booking:", error);
+    throw new Error(error.response?.data || "Error deleting booking");
+  }
+}
+
