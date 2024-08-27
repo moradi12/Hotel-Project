@@ -3,7 +3,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { AuthReducer } from "./AuthReducer";
 import { CustomerReducer } from "./CustomerReducer";
 import RoomReducers from "./RoomReducers";
-
+//change reducer 
 const reducers = combineReducers({ 
     auth: AuthReducer,
     customer: CustomerReducer, 
