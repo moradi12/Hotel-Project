@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import allImage from '../../assets/all.jpg'; // ייבוא התמונה החדשה
-import poolImage from '../../assets/OurPool.jpg'; // ייבוא התמונה
-import './Parallax.css'; // ייבוא קובץ ה-CSS
+import allImage from '../../assets/all.jpg';
+import poolImage from '../../assets/OurPool.jpg';
+import './Parallax.css';
 
 const Parallax = () => {
   return (
@@ -16,12 +16,10 @@ const Parallax = () => {
         </div>
       </Container>
 
-      {/* הוספת התמונה החדשה מעל התוכן */}
       <div className="additional-image-container">
         <img src={allImage} alt="Additional View" className="img-fluid additional-image" />
       </div>
 
-      {/* סעיף "About Us" */}
       <Container className='about-us text-center px-5 py-3 justify-content-center'>
         <h2>About Us</h2>
         <p className="about-text">

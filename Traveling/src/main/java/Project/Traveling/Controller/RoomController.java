@@ -43,13 +43,11 @@ public class RoomController {
         return ResponseEntity.ok(response);
     }
 
-    // Get all room types
     @GetMapping("/room/types")
     public List<String> getRoomTypes() {
         return roomService.getAllRoomTypes();
     }
 
-    // Update an existing room
     @PutMapping("/update/{roomId}")
     public ResponseEntity<?> updateRoom(@PathVariable Long roomId,
                                         @RequestParam(required = false) String roomType,
@@ -76,7 +74,6 @@ public class RoomController {
         return ResponseEntity.ok(roomResponse);
     }
 
-    // Edit an existing room
     @PutMapping("/edit/{roomId}")
     public ResponseEntity<RoomResponse> editRoom(
             @PathVariable Long roomId,
@@ -97,7 +94,6 @@ public class RoomController {
         return ResponseEntity.ok(response);
     }
 
-    // Delete a room by ID
     @DeleteMapping("/delete/{roomId}")
     public ResponseEntity<String> deleteRoom(@PathVariable Long roomId) {
         try {
@@ -109,8 +105,6 @@ public class RoomController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while deleting the room.");
         }
     }
-
-    // Get all rooms
     @GetMapping("/all")
     public ResponseEntity<List<Room>> getAllRooms() throws SQLException {
         List<Room> rooms = roomService.getAllRooms();
@@ -118,7 +112,6 @@ public class RoomController {
         return ResponseEntity.ok(rooms);
     }
 
-    // Get a room by ID
     @GetMapping("/room/{roomId}")
     public ResponseEntity<Optional<RoomResponse>> getRoomById(@PathVariable Long roomId) {
         Optional<Room> theRoom = roomService.getRoomById(roomId);
@@ -128,7 +121,6 @@ public class RoomController {
         }).orElseThrow(() -> new ResourceNotFoundException("Room not found"));
     }
 
-    // Helper method to create RoomResponse
     private RoomResponse getRoomResponse(Room room) throws PhotoRetrievalException {
         List<BookedRoom> bookings = bookingService.getAllBookingsByRoomId(room.getId()); // Directly get the List<BookedRoom>
         return new RoomResponse(room.getId(), room.getRoomType(), room.getRoomPrice(), room.isBooked());
@@ -141,15 +133,12 @@ public class RoomController {
         List<BookedRoom> bookings = bookingService.getAllBookings();
         return ResponseEntity.ok(bookings);
     }
-
-    // Get all bookings by room ID
     @GetMapping("/bookings/room/{roomId}")
     public ResponseEntity<List<BookedRoom>> getAllBookingsByRoomId(@PathVariable Long roomId) {
         List<BookedRoom> bookings = bookingService.getAllBookingsByRoomId(roomId);
         return ResponseEntity.ok(bookings);
     }
 
-    // Cancel a booking by ID
     @DeleteMapping("/bookings/{bookingId}")
     public ResponseEntity<Void> cancelBooking(@PathVariable Long bookingId) {
         try {
@@ -160,7 +149,6 @@ public class RoomController {
         }
     }
 
-    // Save a new booking
     @PostMapping("/bookings/room/{roomId}")
     public ResponseEntity<String> saveBooking(@PathVariable Long roomId, @RequestBody BookedRoom bookingRequest) {
         try {

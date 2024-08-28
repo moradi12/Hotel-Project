@@ -1,41 +1,60 @@
+/* Welcome Section */
 .animated-texts h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #333;
+  color: #2c3e50; /* Darker shade of gray for better contrast */
 }
 
 .animated-texts h1 .hotel-color {
-  color: #b565a7; /* התאמת צבע */
+  color: #8e44ad; /* Rich purple for a more luxurious feel */
+  font-weight: 700;
+}
+
+.colors {
+  color: #ba6ce4f1; /* Softer turquoise for a modern touch */
   font-weight: 700;
 }
 
 .animated-texts h3 {
   font-size: 1.25rem;
   font-weight: 400;
-  color: #333;
+  color: #2c3e50;
   margin-top: 10px;
 }
 
+/* About Us Section */
 .about-us h2 {
   font-weight: bold;
-  color: #333;
-  margin-bottom: 1.5rem; /* רווח מתחת לכותרת */
+  color: #2c3e50;
+  margin-bottom: 1.5rem; 
 }
 
 .about-us .about-text {
-  font-size: 1.25rem; /* הגדלת גודל הגופן */
-  line-height: 1.8; /* הגדלת מרווח בין השורות */
-  color: #444; /* צבע כהה יותר לטון רשמי יותר */
+  font-size: 1.25rem; 
+  line-height: 1.8; 
+  color: #34495e; /* A shade of blue-gray for a more professional look */
   margin-bottom: 1rem;
-  font-weight: 500; /* הפיכת הטקסט לעבה יותר */
+  font-weight: 500; 
 }
 
 .about-us {
-  background-color: #f7f7f7;
+  background-color: #ecf0f1; /* Light gray for a clean background */
   padding: 2rem;
   border-radius: 10px;
-  border: 2px solid #b565a7; /* מסגרת בגוון תואם */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל קל */
+  border: 2px solid #8e44ad; /* Matching border color with the hotel's name color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 2rem;
-  margin-bottom: 3rem; /* הוספת רווח מתחת ל-"About Us" */
+  margin-bottom: 3rem; 
+}
+
+/* Image Styling */
+.additional-image-container,
+.pool-image-container {
+  margin: 20px 0;
+}
+
+.additional-image,
+.pool-image {
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Slightly darker shadow for more depth */
 }

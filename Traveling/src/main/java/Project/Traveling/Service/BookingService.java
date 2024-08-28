@@ -1,6 +1,7 @@
 package Project.Traveling.Service;
 
 import Project.Traveling.Exceptions.InvalidBookingsRequestException;
+import Project.Traveling.Exceptions.ResourceNotFoundException;
 import Project.Traveling.Model.BookedRoom;
 import Project.Traveling.Model.Room;
 import Project.Traveling.Repo.BookingRepository;
@@ -26,9 +27,10 @@ public class BookingService implements IBookingService {
 
     @Override
     public void cancelBooking(Long bookingId) {
-        bookingRepository.deleteById(bookingId);
+        BookedRoom bookedRoom = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with ID: " + bookingId));
+        bookingRepository.delete(bookedRoom);
     }
-
     @Override
     public String saveBooking(Long roomId, BookedRoom bookingRequest) {
         if (bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())) {
