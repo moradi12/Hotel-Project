@@ -95,9 +95,14 @@ const NavBar = ({ loggedIn }) => {
                   <NavDropdown.Item onClick={confirmLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <Nav.Link as={Link} to="/login" className="text-primary mx-3">
-                  Login
-                </Nav.Link>
+                <>
+                  <Nav.Link as={Link} to="/login" className="text-primary mx-3">
+                    Login
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/register" className="text-primary mx-3">
+                    Register
+                  </Nav.Link>
+                </>
               )}
             </Nav>
           </Navbar.Collapse>

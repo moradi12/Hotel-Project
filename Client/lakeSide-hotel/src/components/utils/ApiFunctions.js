@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const API_BASE_URL = "http://localhost:9192";
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -42,7 +43,6 @@ export async function getAllRooms() {
       throw new Error("API response is not an array");
     }
 
-    // Simplify the response data by removing circular references and nested objects
     const simplifiedRooms = response.data.map((room) => {
       return {
         id: room.id,
@@ -59,6 +59,7 @@ export async function getAllRooms() {
     throw new Error(error.response?.data || "Error fetching rooms");
   }
 }
+
 // Function to delete a room
 export async function deleteRoom(roomId) {
   try {
@@ -174,25 +175,29 @@ export async function cancelBooking(bookingId) {
   }
 }
 
-// Function to add a new user
-export async function addUser(userData) {
+// Function to add a new user (register)
+export async function register(userData) {
   try {
-    const response = await api.post("/users/register", userData);
+    const response = await api.post("/booked-rooms/register", userData);
     return response.data;
   } catch (error) {
     console.error("Error adding user:", error);
-    throw new Error(error.response?.data || "Error adding user");
+
+    // Enhanced error handling with custom error messages
+    const errorMessage = error.response?.data || "Error adding user";
+    throw new Error(errorMessage);
   }
 }
 
 // Function to authenticate a user
 export async function authenticateUser(credentials) {
   try {
-    const response = await api.post("/auth/login", credentials);
+    const response = await api.post("/booked-rooms/login", credentials);
     return response.data;
   } catch (error) {
     console.error("Error authenticating user:", error);
-    throw new Error(error.response?.data || "Error authenticating user");
+    const errorMessage = error.response?.data || "Error authenticating user";
+    throw new Error(errorMessage);
   }
 }
 
@@ -271,4 +276,3 @@ export async function deleteBooking(bookingId) {
     throw new Error(error.response?.data || "Error deleting booking");
   }
 }
-
