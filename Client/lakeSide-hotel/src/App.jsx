@@ -10,7 +10,7 @@ import ManageBookings from './components/common/booking/ManageBookings';
 import Home from './components/common/home/Home';
 import Login from './components/Pages/Login';
 import Profile from './components/Pages/Profile';
-import Register from './components/Pages/Register'; // Correct path for Register component
+import Register from './components/Pages/Register'; // Import the Register component
 import AddRoom from './components/room/AddRoom';
 import EditRoom from './components/room/EditRoom';
 import ExistingRooms from "./components/room/ExistingRooms";
@@ -50,8 +50,8 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/booking-success" element={<BookingSuccess />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} /> {/* Register route */}
           <Route path="/profile" element={<Profile />} />
+          <Route path="/register" element={<Register />} /> {/* Add the Register route */}
         </Routes>
         <Footer />
       </Router>

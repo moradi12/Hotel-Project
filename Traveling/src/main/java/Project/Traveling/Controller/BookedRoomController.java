@@ -33,9 +33,9 @@ public class BookedRoomController {
             UserDetails user = loginService.loginUser(credentials);
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + jwt.generateToken(user));
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", user.getUserId());
-            map.put("userName", user.getUserName());
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",user.getUserId());
+            map.put("userName",user.getUserName());
             return new ResponseEntity<>(map, headers, HttpStatus.CREATED);
         } catch (LoginException | CustomerException | AdminException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: " + e.getMessage());
@@ -43,18 +43,13 @@ public class BookedRoomController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserDetails userDetails) {
+    public ResponseEntity<?> registerUser(@RequestBody BookedRoom bookedRoom) {
         try {
-            System.out.println("Received registration request for user: " + userDetails.getEmail());
-            String token = loginService.register(userDetails);
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + token);
-            return new ResponseEntity<>("User registered successfully", headers, HttpStatus.CREATED);
-        } catch (LoginException | CustomerException | AdminException e) {
-            System.err.println("Registration failed: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed: " + e.getMessage());
+            BookedRoom savedBooking = bookedRoomService.registerUser(bookedRoom);
+            return new ResponseEntity<>(savedBooking, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            System.err.println("Unexpected error during registration: " + e.getMessage());
             return new ResponseEntity<>("An error occurred while processing your request.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }}
