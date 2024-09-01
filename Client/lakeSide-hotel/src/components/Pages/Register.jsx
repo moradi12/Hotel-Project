@@ -1,141 +1,136 @@
-import React, { useState } from "react";
-import { CustomerModel } from "../Models/CustomerModel";
-import { UserType } from "../Models/UserType";
-import { register } from "../utils/ApiFunctions"; // Ensure this path is correct
-import "./Register.css"; // Assuming you want to style the component
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { register } from '../utils/ApiFunctions'; // Ensure this path matches your project structure
+import { notify } from '../utils/notif'; // Ensure this path matches your project structure
+import './Register.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    userType: UserType.CUSTOMER, // Default to CUSTOMER
+    userType: "CUSTOMER",
+    firstName: "",
+    lastName: ""
   });
   const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const validateInputs = () => {
+    const { password, confirmPassword, email, userType, firstName, lastName } = formData;
+
+    if (password.length < 5 || password.length > 20) {
+      notifyError("Password must be between 5 and 20 characters long");
+      return false;
+    }
+    if (password !== confirmPassword) {
+      notifyError("Passwords do not match");
+      return false;
+    }
+    if (email.length < 5 || email.length > 20) {
+      notifyError("Email must be between 5 and 20 characters long");
+      return false;
+    }
+    if (userType === "CUSTOMER" && 
+        (firstName.length < 5 || firstName.length > 20 || 
+        lastName.length < 5 || lastName.length > 20)) {
+      notifyError("First name and last name must each be between 5 and 20 characters long");
+      return false;
+    }
+    return true;
+  };
+
+  const notifyError = (message) => {
+    setError(message);
+    notify.error(message);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if passwords match
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
-      setSuccessMessage("");
-      return;
-    }
+    if (!validateInputs()) return;
 
-    // Create a new CustomerModel instance
-    const newCustomer = new CustomerModel(
-      formData.firstName,
-      formData.lastName,
-      formData.email,
-      formData.password,
-      0 // Assuming customerID is auto-generated or not needed initially
-    );
+    const userDetails = {
+      ...formData,
+      userName: formData.userType === "CUSTOMER" ? formData.userName : `${formData.firstName}_${formData.lastName}`,
+    };
 
     try {
-      const response = await register(newCustomer);
-      setSuccessMessage("User registered successfully!");
-      setError("");
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        userType: UserType.CUSTOMER,
-      });
-    } catch (err) {
-      setError(err.message);
-      setSuccessMessage("");
+      await register(userDetails);
+      notify.success("Registration successful!");
+      navigate("/login");
+    } catch (error) {
+      notifyError(error.message);
     }
   };
 
   return (
-    <div className="register-container">
-      <h2>Register</h2>
-      {error && <p className="error-message">{error}</p>}
-      {successMessage && <p className="success-message">{successMessage}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
+    <form className="registration-form" onSubmit={handleSubmit}>
+      <h1 className="register-heading">Register</h1>
+      <select
+        className="form-select"
+        name="userType"
+        value={formData.userType}
+        onChange={handleChange}
+      >
+        <option value="CUSTOMER">Customer</option>
+      </select>
+      {formData.userType === "CUSTOMER" && (
+        <div>
           <input
+            className="form-input"
             type="text"
-            id="firstName"
             name="firstName"
+            placeholder="First Name"
             value={formData.firstName}
             onChange={handleChange}
-            required
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
           <input
+            className="form-input"
             type="text"
-            id="lastName"
             name="lastName"
+            placeholder="Last Name"
             value={formData.lastName}
             onChange={handleChange}
-            required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="userType">User Type</label>
-          <select
-            id="userType"
-            name="userType"
-            value={formData.userType}
-            onChange={handleChange}
-            required
-          >
-            <option value={UserType.CUSTOMER}>Customer</option>
-            <option value={UserType.ADMIN}>Admin</option>
-          </select>
-        </div>
-        <button type="submit" className="register-button">
-          Register
-        </button>
-      </form>
-    </div>
+      )}
+      <input
+        className="form-input"
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={formData.email}
+        onChange={handleChange}
+      />
+      <input
+        className="form-input"
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+      />
+      <input
+        className="form-input"
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirm Password"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+      />
+      {error && <p className="register-error">{error}</p>}
+      <button className="register-button" type="submit">Submit</button>
+    </form>
   );
 };
 

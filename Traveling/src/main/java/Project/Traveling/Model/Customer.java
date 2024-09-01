@@ -36,7 +36,4 @@ public class Customer {
     @Column(nullable = false, length = 40)
     private String lastName;
 
-    // Optionally, you can include fields such as roles or account status
-    // private String role;
-    // private boolean active;
 }

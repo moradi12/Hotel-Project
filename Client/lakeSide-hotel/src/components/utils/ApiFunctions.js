@@ -37,7 +37,7 @@ export async function getAllRooms() {
   try {
     const response = await api.get("/rooms/all");
 
-    console.log("Raw API response:", response.data);
+    console.log("Raw API response:", response.data); // Log the raw response
 
     if (!Array.isArray(response.data)) {
       throw new Error("API response is not an array");
@@ -175,15 +175,16 @@ export async function cancelBooking(bookingId) {
   }
 }
 
-// Function to register a new user
-export async function register(customerData) { // `customerData` is an instance of CustomerModel
+// Function to add a new user (register)
+export async function register(userData) {
   try {
-    const response = await api.post("/booked-rooms/register", customerData);
+    const response = await api.post("/booked-rooms/register", userData);
     return response.data;
   } catch (error) {
     console.error("Error adding user:", error);
-    console.error("Request Data:", customerData);
-    const errorMessage = error.response?.data || "An unexpected error occurred during registration";
+
+    // Enhanced error handling with custom error messages
+    const errorMessage = error.response?.data || "Error adding user";
     throw new Error(errorMessage);
   }
 }

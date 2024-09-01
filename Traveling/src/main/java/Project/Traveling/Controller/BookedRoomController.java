@@ -27,29 +27,41 @@ public class BookedRoomController {
     private final IBookedRoomService bookedRoomService;
     private final LoginService loginService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Credentials credentials) throws LoginException {
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody UserDetails userDetails) {
+        System.out.println("Received registration request for user: " + userDetails.getEmail());
         try {
-            UserDetails user = loginService.loginUser(credentials);
+            String token = loginService.register(userDetails);
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + jwt.generateToken(user));
-            Map<String,Object> map = new HashMap<>();
-            map.put("id",user.getUserId());
-            map.put("userName",user.getUserName());
-            return new ResponseEntity<>(map, headers, HttpStatus.CREATED);
+            headers.set("Authorization", "Bearer " + token);
+
+            return new ResponseEntity<>(token, headers, HttpStatus.CREATED);
         } catch (LoginException | CustomerException | AdminException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed: " + e.getMessage());
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody BookedRoom bookedRoom) {
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Credentials credentials) {
         try {
-            BookedRoom savedBooking = bookedRoomService.registerUser(bookedRoom);
-            return new ResponseEntity<>(savedBooking, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred while processing your request.", HttpStatus.INTERNAL_SERVER_ERROR);
+            // Attempt to log in the user
+            UserDetails user = loginService.loginUser(credentials);
+
+            // Print only the email of the user after successful login
+            System.out.println("User successfully logged in with email: " + user.getEmail());
+
+            // Generate JWT token and prepare response
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + jwt.generateToken(user));
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", user.getUserId());
+            map.put("userName", user.getUserName());
+
+            return new ResponseEntity<>(map, headers, HttpStatus.CREATED);
+        } catch (LoginException | CustomerException | AdminException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: " + e.getMessage());
         }
     }}

@@ -5,17 +5,22 @@ import Project.Traveling.Exceptions.CustomerException;
 import Project.Traveling.Model.*;
 import Project.Traveling.utills.JWT;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 
 @Service
 @RequiredArgsConstructor
 public class LoginService {
+    private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
+
     private final AdminService adminService;
     private final CustomerService customerService;
     private final JWT jwt;
+
     @Value("${admin.email}")
     private String adminEmail;
 
@@ -23,10 +28,9 @@ public class LoginService {
     private String adminPassword;
 
     public String register(UserDetails user) throws LoginException, CustomerException, AdminException {
-
         switch (user.getUserType()) {
             case CUSTOMER:
-                System.out.println("Registering customer: " + user.getEmail());
+                logger.info("Registering customer: {}", user.getEmail());
                 customerService.addCustomer(Customer.builder()
                         .customerID(0)
                         .firstName(user.getUserName().split("_")[0])
@@ -39,12 +43,12 @@ public class LoginService {
                 throw new LoginException("Invalid user type");
         }
         String token = jwt.generateToken(user);
-        System.out.println("User registered successfully. Token: " + token);
+        logger.info("User registered successfully. Token: {}", token);
         return token;
     }
 
     public UserDetails loginUser(Credentials credentials) throws LoginException, CustomerException {
-        System.out.println("Attempting to log in with email: " + credentials.getEmail() + ", userType: " + credentials.getUserType());
+        logger.info("Attempting to log in with email: {}, userType: {}", credentials.getEmail(), credentials.getUserType());
         UserDetails userDetails;
         switch (credentials.getUserType()) {
             case ADMIN:
@@ -54,15 +58,15 @@ public class LoginService {
                 userDetails = validateCustomerCredentials(credentials);
                 break;
             default:
-                System.out.println("Invalid user type.");
+                logger.warn("Invalid user type: {}", credentials.getUserType());
                 throw new LoginException("Invalid user type");
         }
-        System.out.println("User logged in successfully: " + userDetails.getEmail());
+        logger.info("User logged in successfully: {}", userDetails.getEmail());
         return userDetails;
     }
 
     private UserDetails validateAdminCredentials(Credentials credentials) throws LoginException {
-        if ("admin@admin.com".equals(credentials.getEmail()) && "admin".equals(credentials.getPassword())) {
+        if (adminEmail.equals(credentials.getEmail()) && adminPassword.equals(credentials.getPassword())) {
             return UserDetails.builder()
                     .email(credentials.getEmail())
                     .userName("Admin")
@@ -76,9 +80,9 @@ public class LoginService {
     }
 
     private UserDetails validateCustomerCredentials(Credentials credentials) throws LoginException, CustomerException {
-        System.out.println("Validating customer credentials for: " + credentials.getEmail());
+        logger.info("Validating customer credentials for: {}", credentials.getEmail());
         if (!customerService.isCustomerExists(credentials.getEmail(), credentials.getPassword())) {
-            System.out.println("Customer not found or wrong credentials: " + credentials.getEmail());
+            logger.warn("Customer not found or wrong credentials: {}", credentials.getEmail());
             throw new LoginException("Login failed: Wrong email or password for customer");
         } else {
             Customer customer = customerService.login(credentials.getEmail(), credentials.getPassword());
@@ -96,7 +100,7 @@ public class LoginService {
         try {
             return jwt.validateToken(token);
         } catch (Exception e) {
-            System.out.println("Token validation failed: " + e.getMessage());
+            logger.error("Token validation failed: {}", e.getMessage());
             return false;
         }
     }
@@ -105,7 +109,7 @@ public class LoginService {
         try {
             return jwt.checkUser(token, userType);
         } catch (Exception e) {
-            System.out.println("Failed to check user: " + e.getMessage());
+            logger.error("Failed to check user: {}", e.getMessage());
             return false;
         }
     }

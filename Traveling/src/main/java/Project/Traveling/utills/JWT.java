@@ -72,7 +72,7 @@ public class JWT {
         return extractAllClaims(token).getSubject();
     }
 
-    public Date extractExpirationDate(String token) {
+    public java.util.Date extractExpirationDate(String token) {
         return extractAllClaims(token).getExpiration();
     }
 
