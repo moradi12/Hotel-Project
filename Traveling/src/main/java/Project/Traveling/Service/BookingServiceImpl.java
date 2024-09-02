@@ -29,4 +29,9 @@ public class BookingServiceImpl implements IBookingService {
         // Implementation here
         return null;
     }
+
+    @Override
+    public List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
+        return List.of();
+    }
 }

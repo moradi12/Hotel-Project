@@ -9,8 +9,9 @@ import Checkout from './components/common/booking/Checkout';
 import ManageBookings from './components/common/booking/ManageBookings';
 import Home from './components/common/home/Home';
 import Login from './components/Pages/Login';
+import Page404 from './components/Pages/Page404'; // Import the Page404 component
 import Profile from './components/Pages/Profile';
-import Register from './components/Pages/Register'; // Correct path for Register component
+import Register from './components/Pages/Register';
 import AddRoom from './components/room/AddRoom';
 import EditRoom from './components/room/EditRoom';
 import ExistingRooms from "./components/room/ExistingRooms";
@@ -52,6 +53,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} /> {/* Register route */}
           <Route path="/profile" element={<Profile />} />
+          <Route path="*" element={<Page404 />} /> {}
         </Routes>
         <Footer />
       </Router>

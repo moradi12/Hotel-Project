@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Container, Modal, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { FaBell } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { logoutAction } from '../components/common/Redux/AuthReducer';
 import { hotelSystem } from '../components/common/Redux/store';
@@ -80,10 +79,10 @@ const NavBar = ({ loggedIn }) => {
               </Nav.Link>
             </Nav>
             <Nav className="d-flex align-items-center ms-auto">
-              <Nav.Link as={Link} to="/notifications" className="position-relative text-danger mx-3">
+              {/* <Nav.Link as={Link} to="/notifications" className="position-relative text-danger mx-3">
                 <FaBell />
                 {unreadCount > 0 && <span className="badge bg-danger">{unreadCount}</span>}
-              </Nav.Link>
+              </Nav.Link> */}
               {isLoggedIn ? (
                 <NavDropdown title={`Hello, ${userType === 'ADMIN' ? 'Admin' : userName}`} id="navbarDropdown">
                   <NavDropdown.Item as={Link} to="/profile">

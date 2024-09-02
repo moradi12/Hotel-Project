@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
@@ -61,6 +63,7 @@ public class BookingController {
         bookingService.cancelBooking(bookingId);
     }
 
+
     private BookingResponse getBookingResponse(BookedRoom booking) {
         Room theRoom = iroomService.getRoomById(booking.getRoom().getId()).orElseThrow(() -> new ResourceNotFoundException("Room not found"));
         RoomResponse roomResponse = new RoomResponse(
@@ -79,5 +82,14 @@ public class BookingController {
                 booking.getBookingConfirmationCode(),
                 roomResponse
         );
+    }
+
+    @GetMapping("/room/{roomId}/bookings")
+    public ResponseEntity<List<BookingResponse>> getBookingsByRoomId(@PathVariable Long roomId) {
+        List<BookedRoom> bookings = bookingService.getAllBookingsByRoomId(roomId);
+        List<BookingResponse> bookingResponses = bookings.stream()
+                .map(this::getBookingResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(bookingResponses);
     }
 }

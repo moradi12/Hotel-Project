@@ -276,3 +276,14 @@ export async function deleteBooking(bookingId) {
     throw new Error(error.response?.data || "Error deleting booking");
   }
 }
+
+export async function getBookingsByRoomId(roomId) {
+  try {
+    const response = await api.get(`/bookings/room/${roomId}/bookings`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching bookings for room ID ${roomId}:`, error);
+    throw new Error(error.response?.data || `Error fetching bookings for room ID ${roomId}`);
+  }
+}
+
