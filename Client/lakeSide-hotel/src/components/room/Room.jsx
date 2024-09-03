@@ -24,7 +24,7 @@ export const Room = () => {
                         id: room.id,
                         roomType: room.roomType,
                         roomPrice: room.roomPrice,
-                        photo: room.photo,
+                        photo: room.photo, // Ensure this matches what backend sends
                         bookings: room.bookings || [],
                         booked: room.booked || false,
                     }));

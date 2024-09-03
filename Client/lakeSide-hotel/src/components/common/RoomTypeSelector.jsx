@@ -9,9 +9,17 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
   useEffect(() => {
-    getRoomTypes()
-      .then((data) => setRoomTypes(data))
-      .catch((error) => console.error("Error fetching room types:", error));
+    // Fetch the room types when the component is mounted
+    const fetchRoomTypes = async () => {
+      try {
+        const data = await getRoomTypes();
+        setRoomTypes(data);
+      } catch (error) {
+        console.error("Error fetching room types:", error);
+      }
+    };
+
+    fetchRoomTypes();
   }, []);
 
   const handleNewRoomTypeInputChange = (e) => {
@@ -19,18 +27,19 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
   };
 
   const handleAddNewRoomType = () => {
-    if (newRoomType.trim() !== "") {
-      if (!roomTypes.includes(newRoomType)) {
-        setRoomTypes([...roomTypes, newRoomType]);
+    const trimmedRoomType = newRoomType.trim();
+    if (trimmedRoomType !== "") {
+      if (!roomTypes.includes(trimmedRoomType)) {
+        setRoomTypes([...roomTypes, trimmedRoomType]);
         handleRoomInputChange({
-          target: { name: "roomType", value: newRoomType },
+          target: { name: "roomType", value: trimmedRoomType },
         });
         setFeedbackMessage("New room type added successfully!");
-        setTimeout(() => setFeedbackMessage(""), 3000);
       } else {
         setFeedbackMessage("Room type already exists!");
-        setTimeout(() => setFeedbackMessage(""), 3000);
       }
+      // Clear the feedback message after a few seconds
+      setTimeout(() => setFeedbackMessage(""), 3000);
       setNewRoomType("");
       setShowNewRoomTypeInput(false);
     }

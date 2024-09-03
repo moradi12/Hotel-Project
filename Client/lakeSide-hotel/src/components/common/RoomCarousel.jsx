@@ -54,7 +54,7 @@ const RoomCarousel = () => {
                       <Link to={`/book-room/${room.id}`}>
                         <Card.Img
                           variant="top"
-                          src={room.photo ? `data:image/png;base64,${room.photo}` : "/path/to/default/image.png"}
+                          src={room.photo ? `data:image/png;base64,${room.photo}` : `/assets/${room.photoFilename}`}
                           alt={`${room.roomType} Photo`}
                           className="w-100"
                           style={{ height: "200px", objectFit: "cover" }}

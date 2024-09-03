@@ -27,17 +27,18 @@ const Register = () => {
 
   const validateInputs = () => {
     const { password, confirmPassword, email, userType, firstName, lastName } = formData;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    if (!emailRegex.test(email)) {
+      notifyError("Invalid email format");
+      return false;
+    }
     if (password.length < 5 || password.length > 20) {
       notifyError("Password must be between 5 and 20 characters long");
       return false;
     }
     if (password !== confirmPassword) {
       notifyError("Passwords do not match");
-      return false;
-    }
-    if (email.length < 5 || email.length > 20) {
-      notifyError("Email must be between 5 and 20 characters long");
       return false;
     }
     if (userType === "CUSTOMER" && 
@@ -69,7 +70,7 @@ const Register = () => {
       notify.success("Registration successful!");
       navigate("/login");
     } catch (error) {
-      notifyError(error.message);
+      notifyError(error.message || "Registration failed");
     }
   };
 
@@ -83,6 +84,7 @@ const Register = () => {
         onChange={handleChange}
       >
         <option value="CUSTOMER">Customer</option>
+        {/* Add other user types if needed */}
       </select>
       {formData.userType === "CUSTOMER" && (
         <div>

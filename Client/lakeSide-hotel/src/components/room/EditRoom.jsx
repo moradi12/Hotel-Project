@@ -1,83 +1,92 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import RoomTypeSelector from "../common/RoomTypeSelector";
 import { getRoomById, updateRoom } from "../utils/ApiFunctions";
 
 const EditRoom = () => {
+  const { roomId } = useParams();
   const [room, setRoom] = useState({
+    photo: null,
     roomType: "",
     roomPrice: "",
-    photo: null,
   });
-
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [imagePreview, setImagePreview] = useState("");
-  const { roomId } = useParams();
+  const [errors, setErrors] = useState({});
+  const notyf = new Notyf();
 
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
         const roomData = await getRoomById(roomId);
         if (roomData) {
-          setRoom(roomData);
-          setImagePreview(roomData.photo); // Assuming roomData.photo is a URL or base64 string
+          setRoom({
+            roomType: roomData.roomType,
+            roomPrice: roomData.roomPrice,
+            photo: null, // Reset the photo as no new photo is selected initially
+          });
+          setImagePreview(`data:image/jpeg;base64,${roomData.photo}`);
         } else {
-          setErrorMessage("Room data not found");
+          notyf.error("Room data not found.");
         }
       } catch (error) {
+        notyf.error("Error fetching room data.");
         console.error("Error fetching room data:", error);
-        setErrorMessage("Error fetching room data");
       }
     };
 
     fetchRoomData();
   }, [roomId]);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setRoom({ ...room, [name]: value });
+  const handleRoomInputChange = (e) => {
+    const { name, value } = e.target;
+    setRoom((prevRoom) => ({
+      ...prevRoom,
+      [name]: value,
+    }));
   };
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
-    setRoom({ ...room, photo: selectedImage });
-    setImagePreview(URL.createObjectURL(selectedImage));
+    if (selectedImage) {
+      setRoom((prevRoom) => ({ ...prevRoom, photo: selectedImage }));
+      setImagePreview(URL.createObjectURL(selectedImage));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!room.roomType) {
+      newErrors.roomType = "Room type is required";
+    }
+    if (!room.roomPrice) {
+      newErrors.roomPrice = "Room price is required";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
-      const formData = new FormData();
-      formData.append('roomType', room.roomType);
-      formData.append('roomPrice', room.roomPrice);
-      if (room.photo) {
-        formData.append('photo', room.photo);
-      }
-
-      const response = await updateRoom(roomId, formData);
-
-      if (response.status === 200) {
-        setSuccessMessage("Room updated successfully!");
-        setErrorMessage("");
+      const success = await updateRoom(roomId, room);
+      if (success) {
+        notyf.success("Room updated successfully");
+        setImagePreview(""); // Reset the image preview
       } else {
-        setErrorMessage("Error updating room");
-        setSuccessMessage("");
+        notyf.error("Error updating room");
       }
     } catch (error) {
       console.error("Error updating room:", error);
-      setErrorMessage("Error updating room");
-      setSuccessMessage("");
+      notyf.error("Error updating room");
     }
-
-    setTimeout(() => {
-      setSuccessMessage("");
-      setErrorMessage("");
-    }, 3000);
   };
 
   return (
-    <section className="p-4 p-md-5 text-center text-lg-start shadow-1-strong rounded" style={{ backgroundColor: "hsl(0, 0%, 94%)" }}>
+    <section className="edit-room-container p-4 p-md-5 text-center text-lg-start shadow-1-strong rounded" style={{ backgroundColor: "hsl(0, 0%, 94%)" }}>
       <div className="container my-5">
         <div className="row gx-lg-5 align-items-center mb-5">
           <div className="col-lg-6 mb-5 mb-lg-0" style={{ zIndex: 10 }}>
@@ -85,21 +94,17 @@ const EditRoom = () => {
               Edit Room <br />
             </h1>
           </div>
-          {successMessage && (
-            <div className="alert alert-success fade show">{successMessage}</div>
-          )}
-          {errorMessage && (
-            <div className="alert alert-danger fade show">{errorMessage}</div>
-          )}
+
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="roomType" className="form-label">
                 Room Type
               </label>
               <RoomTypeSelector
-                handleRoomInputChange={handleInputChange}
+                handleRoomInputChange={handleRoomInputChange}
                 newRoom={room}
               />
+              {errors.roomType && <span className="error">{errors.roomType}</span>}
             </div>
             <div className="mb-3">
               <label htmlFor="roomPrice" className="form-label">
@@ -111,8 +116,9 @@ const EditRoom = () => {
                 name="roomPrice"
                 type="number"
                 value={room.roomPrice}
-                onChange={handleInputChange}
+                onChange={handleRoomInputChange}
               />
+              {errors.roomPrice && <span className="error">{errors.roomPrice}</span>}
             </div>
             <div className="mb-3">
               <label htmlFor="photo" className="form-label">
@@ -135,10 +141,10 @@ const EditRoom = () => {
               )}
             </div>
             <div className="d-grid d-md-flex mt-2">
-              <Link to="/existing-rooms" className="btn btn-outline-info mr-2">
-                Back
+              <Link to="/existing-rooms" className="btn btn-outline-info">
+                Back 
               </Link>
-              <button className="btn btn-outline-primary" type="submit">Edit Room</button>
+              <button className="btn btn-outline-primary ml-2" type="submit">Save Changes</button>
             </div>
           </form>
         </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { getAllRooms, getBookingsByRoomId } from '../../utils/ApiFunctions'; // Adjust the import path as necessary
-import './RoomSearchForm.css'; // Import the CSS file
+import './RoomSearchForm.css';
 const RoomSearchForm = () => {
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');

@@ -6,6 +6,7 @@ export const api = axios.create({
 });
 
 // Function to add a room
+// Function to add a room
 export async function addRoom(photo, roomType, roomPrice) {
   const formData = new FormData();
   formData.append("photo", photo);
@@ -13,14 +14,15 @@ export async function addRoom(photo, roomType, roomPrice) {
   formData.append("roomPrice", roomPrice);
 
   try {
+    console.log("FormData before sending:", formData); // Log FormData to inspect before sending
     const response = await api.post("/rooms/add/new-room", formData);
+    console.log("Response from server:", response.data); // Log the response to check if photo is included
     return response.status === 200;
   } catch (error) {
     console.error("Error adding room:", error);
     throw new Error(error.response?.data || "Error adding room");
   }
 }
-
 // Function to get all room types
 export async function getRoomTypes() {
   try {
@@ -71,22 +73,27 @@ export async function deleteRoom(roomId) {
   }
 }
 
-// Function to update a room
 export async function updateRoom(roomId, roomData) {
   const formData = new FormData();
+  
+  // Ensure the roomPrice is a string in the correct format
   formData.append("roomType", roomData.roomType);
-  formData.append("roomPrice", roomData.roomPrice);
-  formData.append("photo", roomData.photo);
+  formData.append("roomPrice", roomData.roomPrice.toString());
+  
+  // Conditionally append the photo if it exists
+  if (roomData.photo) {
+    formData.append("photo", roomData.photo);
+  }
 
   try {
     const response = await api.put(`/rooms/update/${roomId}`, formData);
+    console.log("Update response:", response.data); // Log the response
     return response.data;
   } catch (error) {
     console.error("Error updating room:", error);
     throw new Error(error.response?.data || "Error updating room");
   }
 }
-
 // Function to get room by ID
 export async function getRoomById(roomId) {
   try {
@@ -106,14 +113,19 @@ export async function getRoomById(roomId) {
 // Function to edit a room
 export async function editRoom(roomId, roomData) {
   const formData = new FormData();
+
+  // Ensure the roomPrice is a string in the correct format
   formData.append("roomType", roomData.roomType);
-  formData.append("roomPrice", roomData.roomPrice);
+  formData.append("roomPrice", roomData.roomPrice.toString());
+
+  // Conditionally append the photo if it exists
   if (roomData.photo) {
     formData.append("photo", roomData.photo);
   }
 
   try {
     const response = await api.put(`/rooms/edit/${roomId}`, formData);
+    console.log("Edit response:", response.data); // Log the response
     return response.data;
   } catch (error) {
     console.error('Error editing room:', error);

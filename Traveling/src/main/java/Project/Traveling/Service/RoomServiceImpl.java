@@ -121,6 +121,10 @@ public class RoomServiceImpl implements IRoomService {
         return Optional.of(roomRepo.findById(roomId).get());
     }
 
+    @Override
+    public Room save(Room room) {
+        return roomRepo.save(room);    }
+
 
 }
 

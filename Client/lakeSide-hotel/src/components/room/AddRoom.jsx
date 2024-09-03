@@ -14,6 +14,7 @@ const AddRoom = () => {
   });
   const [imagePreview, setImagePreview] = useState("");
   const [rooms, setRooms] = useState([]);
+  const [errors, setErrors] = useState({});
 
   const notyf = new Notyf();
 
@@ -38,25 +39,37 @@ const AddRoom = () => {
 
   const handleRoomInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "roomPrice") {
-      setNewRoom({ ...newRoom, [name]: isNaN(value) ? "" : parseInt(value) });
-    } else {
-      setNewRoom({ ...newRoom, [name]: value });
-    }
+    setNewRoom((prevRoom) => ({
+      ...prevRoom,
+      [name]: value,
+    }));
   };
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
-    setNewRoom({ ...newRoom, photo: selectedImage });
-    setImagePreview(URL.createObjectURL(selectedImage));
+    if (selectedImage) {
+      setNewRoom((prevRoom) => ({ ...prevRoom, photo: selectedImage }));
+      setImagePreview(URL.createObjectURL(selectedImage));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!newRoom.photo) {
+      newErrors.photo = "Image is required";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       const success = await addRoom(newRoom.photo, newRoom.roomType, newRoom.roomPrice);
       if (success) {
-        notyf.success("A New Room added successfully");
+        notyf.success("New Room added successfully");
         setNewRoom({ photo: null, roomType: "", roomPrice: "" });
         setImagePreview("");
         fetchRooms(); // Refresh the list of rooms after adding a new one
@@ -121,6 +134,7 @@ const AddRoom = () => {
                   className="mb-3"
                 />
               )}
+              {errors.photo && <span className="error">{errors.photo}</span>}
             </div>
             <div className="d-grid d-md-flex mt-2">
               <Link to="/existing-rooms" className="btn btn-outline-info">
