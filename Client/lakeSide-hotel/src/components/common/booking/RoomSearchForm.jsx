@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { getAllRooms, getBookingsByRoomId } from '../../utils/ApiFunctions'; // Adjust the import path as necessary
 import './RoomSearchForm.css';
+
 const RoomSearchForm = () => {
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [roomType, setRoomType] = useState('');
   const [rooms, setRooms] = useState([]);
+  const [roomTypes, setRoomTypes] = useState([]); // State for dynamic room types
   const [searched, setSearched] = useState(false);
+
+  useEffect(() => {
+    // Fetch all room types dynamically on component mount
+    const fetchRoomTypes = async () => {
+      try {
+        const allRooms = await getAllRooms();
+        const types = [...new Set(allRooms.map(room => room.roomType))]; // Extract unique room types
+        setRoomTypes(types);
+      } catch (error) {
+        console.error('Error fetching room types:', error);
+      }
+    };
+
+    fetchRoomTypes();
+  }, []);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -79,9 +96,11 @@ const RoomSearchForm = () => {
               onChange={(e) => setRoomType(e.target.value)}
             >
               <option value="">Select a room type</option>
-              <option value="single">Single Room</option>
-              <option value="double">Double Room</option>
-              <option value="suite">Suite</option>
+              {roomTypes.map((type, index) => (
+                <option key={index} value={type}>
+                  {type}
+                </option>
+              ))}
             </Form.Control>
           </Form.Group>
         </Col>

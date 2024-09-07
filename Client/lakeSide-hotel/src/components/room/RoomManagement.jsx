@@ -41,11 +41,10 @@ const RoomManagement = () => {
       notyf.error('Error deleting room');
     }
   };
-
   const handleFilterChange = (event) => {
     const selectedType = event.target.value;
     setFilter(selectedType);
-
+  
     if (selectedType) {
       const filtered = rooms.filter((room) => room.roomType === selectedType);
       setFilteredRooms(filtered);
@@ -53,7 +52,6 @@ const RoomManagement = () => {
       setFilteredRooms(rooms);
     }
   };
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
