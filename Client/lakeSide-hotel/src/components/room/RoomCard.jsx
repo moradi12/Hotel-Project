@@ -6,16 +6,11 @@ const RoomCard = ({ room }) => {
   const [roomImage, setRoomImage] = useState(null);
 
   useEffect(() => {
-    // if (room.photoFilename) {
-    //   // Dynamically import the image based on the room's photoFilename
-    //   import(`../../assets/${room.photoFilename}`)
-    //     .then((image) => setRoomImage(image.default))
-    //     .catch((err) =>
-    //       console.error(`Failed to load image ${room.photoFilename}`, err)
-    //     );
-    // }
-    console.log(room.photoFilename)
-  }, []);
+    if (room.photo) {
+      // Set the Base64 image directly
+      setRoomImage(`data:image/jpeg;base64,${room.photo}`);
+    }
+  }, [room.photo]);
 
   return (
     <Col key={room.id} className="mb-4" xs={12} md={6} lg={4}>
@@ -48,9 +43,14 @@ const RoomCard = ({ room }) => {
               ${room.roomPrice}/night
             </Card.Subtitle>
             <Card.Text>
-              A cozy {room.roomType} available at our hotel. Enjoy your stay!
+              {room.roomDescription || `A cozy ${room.roomType} available at our hotel. Enjoy your stay!`}
             </Card.Text>
-            <Link to={`/book-room/${room.id}`} className="btn btn-hotel">
+            <Card.Text className="mt-2">
+              {room.roomDescription && (
+                <strong>{room.roomDescription}</strong>
+              )}
+            </Card.Text>
+            <Link to={`/book-room/${room.id}`} className="btn btn-hotel mt-2">
               Book Now
             </Link>
           </div>

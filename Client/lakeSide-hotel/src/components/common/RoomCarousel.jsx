@@ -64,6 +64,9 @@ const RoomCarousel = () => {
                       <Card.Body>
                         <Card.Title className="hotel-color">{room.roomType}</Card.Title>
                         <Card.Title className="room-price">${room.roomPrice}/night</Card.Title>
+                        <Card.Text>
+                          {room.roomDescription || `A cozy ${room.roomType} available at our hotel. Enjoy your stay!`}
+                        </Card.Text>
                         <div className="flex-shrink-0">
                           <Link className="btn btn-sm btn-hotel" to={`/book-room/${room.id}`}>
                             Book Now

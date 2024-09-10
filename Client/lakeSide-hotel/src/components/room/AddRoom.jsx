@@ -11,6 +11,7 @@ const AddRoom = () => {
     photo: null,
     roomType: "", 
     roomPrice: "",
+    roomDescription: "",  // Add roomDescription field here
   });
   const [imagePreview, setImagePreview] = useState("");
   const [rooms, setRooms] = useState([]);
@@ -67,10 +68,10 @@ const AddRoom = () => {
     if (!validateForm()) return;
 
     try {
-      const success = await addRoom(newRoom.photo, newRoom.roomType, newRoom.roomPrice);
+      const success = await addRoom(newRoom.photo, newRoom.roomType, newRoom.roomPrice, newRoom.roomDescription);
       if (success) {
         notyf.success("New Room added successfully");
-        setNewRoom({ photo: null, roomType: "", roomPrice: "" });
+        setNewRoom({ photo: null, roomType: "", roomPrice: "", roomDescription: "" });
         setImagePreview("");
         fetchRooms(); // Refresh the list of rooms after adding a new one
       } else {
@@ -112,6 +113,18 @@ const AddRoom = () => {
                 name="roomPrice"
                 type="number"
                 value={newRoom.roomPrice}
+                onChange={handleRoomInputChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="roomDescription" className="form-label">
+                Room Description
+              </label>
+              <textarea
+                className="form-control"
+                id="roomDescription"
+                name="roomDescription"
+                value={newRoom.roomDescription}
                 onChange={handleRoomInputChange}
               />
             </div>
