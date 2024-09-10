@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -6,15 +6,16 @@ const RoomCard = ({ room }) => {
   const [roomImage, setRoomImage] = useState(null);
 
   useEffect(() => {
-    if (room.photoFilename) {
-      // Dynamically import the image based on the room's photoFilename
-      import(`../../assets/${room.photoFilename}`)
-        .then((image) => setRoomImage(image.default))
-        .catch((err) =>
-          console.error(`Failed to load image ${room.photoFilename}`, err)
-        );
-    }
-  }, [room.photoFilename]);
+    // if (room.photoFilename) {
+    //   // Dynamically import the image based on the room's photoFilename
+    //   import(`../../assets/${room.photoFilename}`)
+    //     .then((image) => setRoomImage(image.default))
+    //     .catch((err) =>
+    //       console.error(`Failed to load image ${room.photoFilename}`, err)
+    //     );
+    // }
+    console.log(room.photoFilename)
+  }, []);
 
   return (
     <Col key={room.id} className="mb-4" xs={12} md={6} lg={4}>

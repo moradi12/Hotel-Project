@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -129,10 +130,23 @@ public class RoomController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Room>> getAllRooms() throws SQLException {
+    public ResponseEntity<List<RoomResponse>> getAllRooms() throws SQLException, IOException {
         List<Room> rooms = roomService.getAllRooms();
         System.out.println("Fetched rooms from DB: " + rooms); // Logging
-        return ResponseEntity.ok(rooms);
+
+        // Convert each Room entity to a RoomResponse DTO
+        List<RoomResponse> roomResponses = rooms.stream().map(room -> {
+            try {
+                // Convert the Blob to a Base64 string for the photo
+                String base64Photo = Base64.getEncoder().encodeToString(room.getPhoto().getBytes(1, (int) room.getPhoto().length()));
+                return new RoomResponse(room.getId(), room.getRoomType(), room.getRoomPrice(), room.isBooked(), base64Photo);
+            } catch (SQLException e) {
+                // Return a meaningful response in case of an error
+                throw new RuntimeException("Error converting photo for room with ID: " + room.getId(), e);
+            }
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(roomResponses);
     }
 
     @GetMapping("/room/{roomId}")

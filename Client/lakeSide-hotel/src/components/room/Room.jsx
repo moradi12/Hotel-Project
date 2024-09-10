@@ -63,7 +63,6 @@ export const Room = () => {
             console.error("filteredData is not an array:", filteredData);
             return <div className="text-danger">Error: Invalid data format.</div>;
         }
-
         return filteredData.slice(startIndex, endIndex).map((room) => (
             <RoomCard key={room.id} room={room} />
         ));
