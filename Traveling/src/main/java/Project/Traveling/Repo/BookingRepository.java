@@ -15,4 +15,8 @@ public interface BookingRepository extends JpaRepository<BookedRoom, Long> {
     List<BookedRoom> findByRoomId(Long roomId);
 
     @Query("SELECT b FROM BookedRoom b WHERE b.bookingConfirmationCode = :confirmationCode")
-    Optional<BookedRoom> findByBookingConfirmationCode(@Param("confirmationCode") String confirmationCode);}
+    Optional<BookedRoom> findByBookingConfirmationCode(@Param("confirmationCode") String confirmationCode);
+
+    List<BookedRoom> findByGuestEmail(String email);
+
+}

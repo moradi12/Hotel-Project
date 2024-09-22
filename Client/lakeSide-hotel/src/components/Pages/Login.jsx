@@ -61,11 +61,13 @@ const Login = ({ setRender }) => {
         })
       );
       sessionStorage.setItem("jwt", JWT);
-      navigate("/browse-rooms");
+
+      // Trigger page reload after successful login
+      window.location.reload();
 
       // Log to console after successful login
       console.log("Login successful:", res.data.userName, credentials.userType);
-      
+
       // Trigger a re-render in the parent component if provided
       if (typeof setRender === "function") {
         setRender(true);
@@ -83,7 +85,10 @@ const Login = ({ setRender }) => {
     sessionStorage.removeItem("jwt");
     navigate("/login");
     console.log("User logged out successfully");
-    
+
+    // Trigger page reload after successful logout
+    window.location.reload();
+
     // Trigger a re-render in the parent component if provided
     if (typeof setRender === "function") {
       setRender(true);

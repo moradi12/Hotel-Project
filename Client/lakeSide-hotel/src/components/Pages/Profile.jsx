@@ -1,121 +1,207 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import moment from "moment"
+import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { deleteUser, getBookingsByUserId, getUser } from "../utils/ApiFunctions"
 
 const Profile = () => {
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [role, setRole] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [updateMessage, setUpdateMessage] = useState('');
-  const [passwordMessage, setPasswordMessage] = useState('');
+	const [user, setUser] = useState({
+		id: "",
+		email: "",
+		firstName: "",
+		lastName: "",
+		roles: [{ id: "", name: "" }]
+	})
 
-  useEffect(() => {
-    // Fetch user data from sessionStorage or API
-    const name = sessionStorage.getItem('userName') || 'User';
-    const userEmail = sessionStorage.getItem('userEmail') || 'user@example.com';
-    const userRole = sessionStorage.getItem('userType') || 'Customer';
+	const [bookings, setBookings] = useState([
+		{
+			id: "",
+			room: { id: "", roomType: "" },
+			checkInDate: "",
+			checkOutDate: "",
+			bookingConfirmationCode: ""
+		}
+	])
+	const [message, setMessage] = useState("")
+	const [errorMessage, setErrorMessage] = useState("")
+	const navigate = useNavigate()
 
-    setUserName(name);
-    setEmail(userEmail);
-    setRole(userRole);
-  }, []);
+	const userId = localStorage.getItem("userId")
+	const token = localStorage.getItem("token")
 
-  const handleProfileUpdate = (e) => {
-    e.preventDefault();
-    // Handle profile update logic here (API call)
-    console.log('Profile updated:', { userName, email });
-    setUpdateMessage('Profile updated successfully!');
-    setTimeout(() => setUpdateMessage(''), 3000); // Clear the message after 3 seconds
-  };
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				const userData = await getUser(userId, token)
+				setUser(userData)
+			} catch (error) {
+				console.error(error)
+			}
+		}
 
-  const handlePasswordChange = (e) => {
-    e.preventDefault();
-    if (newPassword !== confirmPassword) {
-      setPasswordMessage('Passwords do not match!');
-      return;
-    }
-    // Handle password change logic here (API call)
-    console.log('Password changed:', { newPassword });
-    setPasswordMessage('Password changed successfully!');
-    setTimeout(() => setPasswordMessage(''), 3000); // Clear the message after 3 seconds
-  };
+		fetchUser()
+	}, [userId])
 
-  return (
-    <Container>
-      <Row className="justify-content-center">
-        <Col md={6}>
-          <Card className="p-4 mt-5">
-            <Card.Title className="text-center">Profile</Card.Title>
-            <Form onSubmit={handleProfileUpdate}>
-              <Form.Group className="mb-3">
-                <Form.Label>User Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter your name"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                />
-              </Form.Group>
+	useEffect(() => {
+		const fetchBookings = async () => {
+			try {
+				const response = await getBookingsByUserId(userId, token)
+				setBookings(response)
+			} catch (error) {
+				console.error("Error fetching bookings:", error.message)
+				setErrorMessage(error.message)
+			}
+		}
 
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Group>
+		fetchBookings()
+	}, [userId])
 
-              <Form.Group className="mb-3">
-                <Form.Label>Role</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={role}
-                  readOnly
-                />
-              </Form.Group>
+	const handleDeleteAccount = async () => {
+		const confirmed = window.confirm(
+			"Are you sure you want to delete your account? This action cannot be undone."
+		)
+		if (confirmed) {
+			await deleteUser(userId)
+				.then((response) => {
+					setMessage(response.data)
+					localStorage.removeItem("token")
+					localStorage.removeItem("userId")
+					localStorage.removeItem("userRole")
+					navigate("/")
+					window.location.reload()
+				})
+				.catch((error) => {
+					setErrorMessage(error.data)
+				})
+		}
+	}
 
-              <Button variant="primary" type="submit" className="w-100">
-                Update Profile
-              </Button>
-              {updateMessage && <p className="text-success text-center mt-3">{updateMessage}</p>}
-            </Form>
+	return (
+		<div className="container">
+			{errorMessage && <p className="text-danger">{errorMessage}</p>}
+			{message && <p className="text-danger">{message}</p>}
+			{user ? (
+				<div className="card p-5 mt-5" style={{ backgroundColor: "whitesmoke" }}>
+					<h4 className="card-title text-center">User Information</h4>
+					<div className="card-body">
+						<div className="col-md-10 mx-auto">
+							<div className="card mb-3 shadow">
+								<div className="row g-0">
+									<div className="col-md-2">
+										<div className="d-flex justify-content-center align-items-center mb-4">
+											<img
+												src="https://themindfulaimanifesto.org/wp-content/uploads/2020/09/male-placeholder-image.jpeg"
+												alt="Profile"
+												className="rounded-circle"
+												style={{ width: "150px", height: "150px", objectFit: "cover" }}
+											/>
+										</div>
+									</div>
 
-            <hr />
+									<div className="col-md-10">
+										<div className="card-body">
+											<div className="form-group row">
+												<label className="col-md-2 col-form-label fw-bold">ID:</label>
+												<div className="col-md-10">
+													<p className="card-text">{user.id}</p>
+												</div>
+											</div>
+											<hr />
 
-            <Form onSubmit={handlePasswordChange}>
-              <Form.Group className="mb-3">
-                <Form.Label>New Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter new password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </Form.Group>
+											<div className="form-group row">
+												<label className="col-md-2 col-form-label fw-bold">First Name:</label>
+												<div className="col-md-10">
+													<p className="card-text">{user.firstName}</p>
+												</div>
+											</div>
+											<hr />
 
-              <Form.Group className="mb-3">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Confirm new password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </Form.Group>
+											<div className="form-group row">
+												<label className="col-md-2 col-form-label fw-bold">Last Name:</label>
+												<div className="col-md-10">
+													<p className="card-text">{user.lastName}</p>
+												</div>
+											</div>
+											<hr />
 
-              <Button variant="secondary" type="submit" className="w-100">
-                Change Password
-              </Button>
-              {passwordMessage && <p className="text-danger text-center mt-3">{passwordMessage}</p>}
-            </Form>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  );
-};
+											<div className="form-group row">
+												<label className="col-md-2 col-form-label fw-bold">Email:</label>
+												<div className="col-md-10">
+													<p className="card-text">{user.email}</p>
+												</div>
+											</div>
+											<hr />
 
-export default Profile;
+											<div className="form-group row">
+												<label className="col-md-2 col-form-label fw-bold">Roles:</label>
+												<div className="col-md-10">
+													<ul className="list-unstyled">
+														{user.roles.map((role) => (
+															<li key={role.id} className="card-text">
+																{role.name}
+															</li>
+														))}
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<h4 className="card-title text-center">Booking History</h4>
+
+							{bookings.length > 0 ? (
+								<table className="table table-bordered table-hover shadow">
+									<thead>
+										<tr>
+											<th scope="col">Booking ID</th>
+											<th scope="col">Room ID</th>
+											<th scope="col">Room Type</th>
+											<th scope="col">Check In Date</th>
+											<th scope="col">Check Out Date</th>
+											<th scope="col">Confirmation Code</th>
+											<th scope="col">Status</th>
+										</tr>
+									</thead>
+									<tbody>
+										{bookings.map((booking, index) => (
+											<tr key={index}>
+												<td>{booking.id}</td>
+												<td>{booking.room.id}</td>
+												<td>{booking.room.roomType}</td>
+												<td>
+													{moment(booking.checkInDate).subtract(1, "month").format("MMM Do, YYYY")}
+												</td>
+												<td>
+													{moment(booking.checkOutDate)
+														.subtract(1, "month")
+														.format("MMM Do, YYYY")}
+												</td>
+												<td>{booking.bookingConfirmationCode}</td>
+												<td className="text-success">On-going</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							) : (
+								<p>You have not made any bookings yet.</p>
+							)}
+
+							<div className="d-flex justify-content-center">
+								<div className="mx-2">
+									<button className="btn btn-danger btn-sm" onClick={handleDeleteAccount}>
+										Close account
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			) : (
+				<p>Loading user data...</p>
+			)}
+		</div>
+	)
+}
+
+export default Profile

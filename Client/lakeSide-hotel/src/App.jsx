@@ -11,7 +11,7 @@ import Home from './components/common/home/Home';
 import Login from './components/Pages/Login';
 import Page404 from './components/Pages/Page404'; // Import the Page404 component
 import Profile from './components/Pages/Profile';
-import Register from './components/Pages/Register';
+import Registration from './components/Pages/Registration';
 import AddRoom from './components/room/AddRoom';
 import EditRoom from './components/room/EditRoom';
 import ExistingRooms from "./components/room/ExistingRooms";
@@ -51,7 +51,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/booking-success" element={<BookingSuccess />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} /> {/* Register route */}
+          <Route path="/register" element={<Registration />} /> {/* Register route */}
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<Page404 />} /> {}
         </Routes>

@@ -26,17 +26,24 @@ public class LoginService {
 
     @Value("${admin.password}")
     private String adminPassword;
-
     public String register(UserDetails user) throws LoginException, CustomerException, AdminException {
         switch (user.getUserType()) {
             case CUSTOMER:
                 logger.info("Registering customer: {}", user.getEmail());
+
+                // Set the username by concatenating first name and last name or create a default username
+                String username = user.getUserName();
+                if (username == null || username.isEmpty()) {
+                    username = user.getFirstName() + "_" + user.getLastName();
+                }
+
                 customerService.addCustomer(Customer.builder()
                         .customerID(0)
-                        .firstName(user.getUserName().split("_")[0])
-                        .lastName(user.getUserName().split("_")[1])
+                        .firstName(user.getFirstName()) // Include firstName
+                        .lastName(user.getLastName())   // Include lastName
                         .email(user.getEmail())
-                        .password(user.getPassword())
+                        .password(user.getPassword())   // You should encrypt this in production
+                        .username(username)             // Set the username
                         .build());
                 break;
             default:
@@ -46,6 +53,7 @@ public class LoginService {
         logger.info("User registered successfully. Token: {}", token);
         return token;
     }
+
 
     public UserDetails loginUser(Credentials credentials) throws LoginException, CustomerException {
         logger.info("Attempting to log in with email: {}, userType: {}", credentials.getEmail(), credentials.getUserType());

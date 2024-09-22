@@ -5,6 +5,54 @@ export const api = axios.create({
   baseURL: API_BASE_URL,
 });
 
+
+
+export async function registerUser(registration) {
+  try {
+    const response = await api.post("/booked-rooms/register-user", registration);
+    return response.data;  // Expecting token and message from backend
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || "Registration failed");
+    } else {
+      throw new Error(`User registration error: ${error.message}`);
+    }
+  }
+}
+
+// Function to authenticate a user
+export async function authenticateUser(credentials) {
+  try {
+    const response = await api.post("/booked-rooms/login", credentials);
+    return response.data;
+  } catch (error) {
+    console.error("Error authenticating user:", error);
+    const errorMessage = error.response?.data || "Error authenticating user";
+    throw new Error(errorMessage);
+  }
+}
+
+
+
+/* This function login a registered user */
+export async function loginUser(login) {
+	try {
+		const response = await api.post("/auth/login", login)
+		if (response.status >= 200 && response.status < 300) {
+			return response.data
+		} else {
+			return null
+		}
+	} catch (error) {
+		console.error(error)
+		return null
+	}
+}
+
+
+
+
+
 // Function to add a room
 // Function to add a room
 export async function addRoom(photo, roomType, roomPrice) {
@@ -187,31 +235,22 @@ export async function cancelBooking(bookingId) {
   }
 }
 
-// Function to add a new user (register)
-export async function register(userData) {
-  try {
-    const response = await api.post("/booked-rooms/register", userData);
-    return response.data;
-  } catch (error) {
-    console.error("Error adding user:", error);
 
-    // Enhanced error handling with custom error messages
-    const errorMessage = error.response?.data || "Error adding user";
-    throw new Error(errorMessage);
-  }
+
+
+
+
+
+export async function getAvailableRooms(checkInDate, checkOutDate, roomType) {
+	const result = await api.get(
+		`rooms/available-rooms?checkInDate=${checkInDate}
+		&checkOutDate=${checkOutDate}&roomType=${roomType}`
+	)
+	return result
 }
 
-// Function to authenticate a user
-export async function authenticateUser(credentials) {
-  try {
-    const response = await api.post("/booked-rooms/login", credentials);
-    return response.data;
-  } catch (error) {
-    console.error("Error authenticating user:", error);
-    const errorMessage = error.response?.data || "Error authenticating user";
-    throw new Error(errorMessage);
-  }
-}
+
+
 
 // Function to get user profile by ID
 export async function getUserProfile(userId) {
@@ -298,4 +337,42 @@ export async function getBookingsByRoomId(roomId) {
     throw new Error(error.response?.data || `Error fetching bookings for room ID ${roomId}`);
   }
 }
+
+// Function to get bookings by user ID
+export async function getBookingsByUserId(userId, token) {
+  try {
+    const response = await api.get(`/bookings/user/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching bookings for user ID ${userId}:`, error);
+    throw new Error(error.response?.data || `Error fetching bookings for user ID ${userId}`);
+  }
+}
+
+// Function to get user details by user ID
+export async function getUser(userId, token) {
+  try {
+    const response = await api.get(`/users/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching user details for user ID ${userId}:`, error);
+    throw new Error(error.response?.data || `Error fetching user details for user ID ${userId}`);
+  }
+}
+
+// Function to delete a user account
+export async function deleteUser(userId) {
+  try {
+    const response = await api.delete(`/users/delete/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error deleting user account for user ID ${userId}:`, error);
+    throw new Error(error.response?.data || `Error deleting user account for user ID ${userId}`);
+  }
+}
+
 
