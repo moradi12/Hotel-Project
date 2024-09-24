@@ -43,7 +43,7 @@ const RoomCard = ({ room }) => {
               ${room.roomPrice}/night
             </Card.Subtitle>
             <Card.Text>
-              {room.roomDescription || `A cozy ${room.roomType} available at our hotel. Enjoy your stay!`}
+              {room.roomDescription || ` ${room.roomType} available at our hotel. Enjoy your stay!`}
             </Card.Text>
             <Card.Text className="mt-2">
               {room.roomDescription && (

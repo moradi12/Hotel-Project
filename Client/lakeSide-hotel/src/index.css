@@ -68,13 +68,17 @@ body {
 
   .hotel-color{
     color: rgb(169, 77, 123);
+    font-family: 'Arial', sans-serif; 
+
   }
-  .room-price{
-    color:darkgoldenrod;
-    font-family: 'Courier New', Courier, monospace;
-    font-size:medium;
-  }
-  .vertical-rule{
+  .room-price {
+    color: #975a04; 
+    font-family: 'Arial', sans-serif; 
+    font-size: 1.1rem; 
+    font-weight: bold; 
+}
+
+.vertical-rule{
     border-left: '0.5px solid black';
     height: '100vh'
   }
