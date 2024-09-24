@@ -83,7 +83,7 @@ Client
    ```bash
    npm run dev
    ```
-2. Open your browser and go to `http://localhost:3000` to view the application.
+2. Open your browser and go to `http://localhost:5173` to view the application.
 
 ## Components
 
