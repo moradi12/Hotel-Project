@@ -49,18 +49,44 @@ Client
 
 ## Features
 
-- **Room Management**: View, filter, and manage hotel rooms.
-- **Pagination**: Navigate through large room datasets easily.
-- **Room Services**: Provides hotel services like Spa, Fitness Room, and Business Center.
-- **CRUD Operations**: Add, edit, and delete rooms.
-- **Custom Styling**: Separate CSS files for components like `Header` and `MainHeader`.
+### Room Management
+- View, filter, and manage hotel rooms.
+- Pagination for handling large datasets.
+- Room services like Spa, Fitness Room, and Business Center.
+
+### Booking and User Management
+- Room booking and history display.
+- JWT-based authentication for secure access.
+- User profile management.
+- Admin features for room CRUD operations.
+
+### Additional Features
+- Real-time notifications.
+- Responsive design across devices.
+- Custom styling for UI components.
 
 ## Technologies Used
 
-- **React**: For building the front-end interface.
-- **Bootstrap**: For responsive design and styling.
-- **API Integration**: Manages data fetching and state management.
-- **React Icons**: For service icons in the hotel services section.
+### Front-End
+- **React**
+- **Bootstrap**
+- **React Icons**
+- **React Router**
+- **Axios**
+- **React Hook Form**
+
+### Back-End
+- **Java**
+- **Spring Boot**
+- **Spring Security**
+- **Hibernate**
+- **MySQL**
+- **JWT**
+
+### Other Tools and Libraries
+- **Notyf**
+- **Lombok**
+- **Maven**
 
 ## Installation
 
@@ -81,9 +107,9 @@ Client
 
 1. Start the development server:
    ```bash
-   npm run dev
+   npm start
    ```
-2. Open your browser and go to `http://localhost:5173` to view the application.
+2. Open your browser and go to `http://localhost:3000` to view the application.
 
 ## Components
 
