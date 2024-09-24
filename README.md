@@ -1,22 +1,22 @@
-Hotel Management System
 
-This project is a Hotel Management System built with React, Bootstrap, and various API functions. It enables users to view, filter, and manage hotel rooms, including the ability to add, edit, and delete rooms. Pagination functionality enhances the user experience, especially when dealing with large datasets.
-Table of Contents
+# Hotel Management System
 
-    Project Structure
-    Features
-    Technologies Used
-    Installation
-    Usage
-    Components
-    Contributing
-    License
-    Contact
+This project is a **Hotel Management System** built with React, Bootstrap, and various API functions. It enables users to view, filter, and manage hotel rooms, including the ability to add, edit, and delete rooms. Pagination functionality enhances the user experience, especially when dealing with large datasets.
 
-Project Structure
+## Table of Contents
 
-scss
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Components](#components)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
+## Project Structure
+```
 Client
 |   App.css, App.jsx, index.css, main.jsx, project_structure.txt
 |
@@ -45,70 +45,65 @@ Client
 |   +---Repo (Repositories for Admin, BookedRoom, Room, User, etc.)
 |   +---Service (AdminService.java, BookingService.java, RoomService.java, etc.)
 |   +---utills (JWT.java for token handling)
+```
 
-Features
+## Features
 
-    Room Management: View, filter, and manage hotel rooms.
-    Pagination: Navigate through large room datasets easily.
-    Room Services: Provides hotel services like Spa, Fitness Room, and Business Center.
-    CRUD Operations: Add, edit, and delete rooms.
-    Custom Styling: Separate CSS files for components like Header and MainHeader.
+- **Room Management**: View, filter, and manage hotel rooms.
+- **Pagination**: Navigate through large room datasets easily.
+- **Room Services**: Provides hotel services like Spa, Fitness Room, and Business Center.
+- **CRUD Operations**: Add, edit, and delete rooms.
+- **Custom Styling**: Separate CSS files for components like `Header` and `MainHeader`.
 
-Technologies Used
+## Technologies Used
 
-    React: For building the front-end interface.
-    Bootstrap: For responsive design and styling.
-    API Integration: Manages data fetching and state management.
-    React Icons: For service icons in the hotel services section.
+- **React**: For building the front-end interface.
+- **Bootstrap**: For responsive design and styling.
+- **API Integration**: Manages data fetching and state management.
+- **React Icons**: For service icons in the hotel services section.
 
-Installation
+## Installation
 
-    Clone the repository:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/moradi12/Hotel-Management-System.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd Hotel-Management-System
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-    bash
+## Usage
 
-git clone https://github.com/moradi12/Hotel-Management-System.git
+1. Start the development server:
+   ```bash
+   npm start
+   ```
+2. Open your browser and go to `http://localhost:3000` to view the application.
 
-Navigate to the project directory:
+## Components
 
-bash
+- **Header**: Displays the main navigation and branding.
+- **MainHeader**: Secondary header with additional links.
+- **Room**: Manages the display and functionality of individual rooms.
+- **ExistingRooms**: Displays a list of all rooms with filtering and pagination.
+- **AddPatients**: Manages patient details in the system.
 
-cd Hotel-Management-System
-
-Install dependencies:
-
-bash
-
-    npm install
-
-Usage
-
-    Start the development server:
-
-    bash
-
-    npm start
-
-    Open your browser and go to http://localhost:3000 to view the application.
-
-Components
-
-    Header: Displays the main navigation and branding.
-    MainHeader: Secondary header with additional links.
-    Room: Manages the display and functionality of individual rooms.
-    ExistingRooms: Displays a list of all rooms with filtering and pagination.
-    AddPatients: Manages patient details in the system.
-
-Contributing
+## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request for any improvements or bug fixes.
-License
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
-Contact
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Contact
 
 For any inquiries, feel free to reach out:
 
-    GitHub: moradi12
-    Email: tamirmoradi@gmail.com
-
+- **GitHub**: [moradi12](https://github.com/moradi12)
+- **Email**: tamirmoradi@gmail.com
