@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { FaBasketballBall, FaBiking, FaBowlingBall, FaFootballBall, FaHockeyPuck, FaSnowflake, FaSwimmer, FaVolleyballBall } from "react-icons/fa";
-import sportsFacilitiesImage from '../../../../lakeSide-hotel/src/assets/SportsFacilities.jpg'; // Import the image
+import sportsFacilitiesImage from '../../../../sunsetQueen-hotel/src/assets/SportsFacilities.jpg'; // Import the image
 
 const SportsFacilities = () => {
   return (
