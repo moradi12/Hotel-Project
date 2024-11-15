@@ -96,7 +96,7 @@ Client
    ```
 2. Navigate to the project directory:
    ```bash
-   cd Hotel-Management-System
+   cd sunsetQueen-hotel
    ```
 3. Install dependencies:
    ```bash
